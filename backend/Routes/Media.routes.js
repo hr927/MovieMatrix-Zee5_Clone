@@ -4,8 +4,19 @@ const { MediaModel } = require("../Model/Media.model");
 const mediaRouter = express.Router();
 
 mediaRouter.get("/", async (req, res) => {
+  const query = req.query;
+  console.log(query);
   try {
-    const media = await MediaModel.find();
+    const media = await MediaModel.find(query);
+    res.send(media);
+  } catch (err) {
+    res.send({ msg: "Something went wrong", error: err.message });
+  }
+});
+mediaRouter.get("/details/:id", async (req, res) => {
+  const mediaID = req.params.id;
+  try {
+    const media = await MediaModel.find({ _id: mediaID });
     res.send(media);
   } catch (err) {
     res.send({ msg: "Something went wrong", error: err.message });
