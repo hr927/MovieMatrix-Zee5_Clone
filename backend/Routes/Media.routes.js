@@ -45,7 +45,7 @@ mediaRouter.patch("/update/:id", async (req, res) => {
   }
 });
 
-mediaRouter.delete("/create/:id", async (req, res) => {
+mediaRouter.delete("/delete/:id", async (req, res) => {
   const mediaID = req.params.id;
   try {
     const media = await MediaModel.findByIdAndDelete({ _id: mediaID });
