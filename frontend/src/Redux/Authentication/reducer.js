@@ -23,7 +23,7 @@ export const reducer = (state = initialState, { type, payload }) => {
         user: payload,
         error: false,
         loading: false,
-        token: payload.token ? state.token : null,
+        token: payload,
       };
     case AUTH_FAILURE:
       return {
@@ -38,10 +38,11 @@ export const reducer = (state = initialState, { type, payload }) => {
         user: null,
         error: false,
         loading: false,
+        token: null,
       };
     default:
       return state;
   }
 };
 
-// export default authReducer;
+

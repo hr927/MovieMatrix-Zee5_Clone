@@ -19,20 +19,6 @@ export const logout = () => ({
   type: LOGOUT,
 });
 
-export const login = (userData) => async (dispatch) => {
-  try {
-    dispatch(authRequest());
-
-    // make the API call to signup the user
-    axios
-      .post("http://localhost:8080/user/login", userData)
-      .then((res) => dispatch(authSuccess()));
-  } catch (error) {
-    // if the response is unsuccessful, dispatch AUTH_FAILURE with the error message
-    dispatch(authFailure(error.message));
-  }
-};
-
 // Register user
 export const register = (userData) => async (dispatch) => {
   try {
@@ -54,23 +40,36 @@ export const register = (userData) => async (dispatch) => {
   }
 };
 
-// Login user
-const login = (userData) => async (dispatch) => {
+export const login = (userData) => async (dispatch) => {
   try {
     dispatch(authRequest());
 
-    const response = await axios.post(API_URL + "login", userData);
-
+    // make the API call to signup the user
+    const response = await axios.post(
+      "http://localhost:8080/user/login",
+      userData
+    );
+  
     if (response.data.token) {
-      localStorage.setItem("token", JSON.stringify(response.data));
+    //   console.log("token", response.data.token);
+      localStorage.setItem("token", JSON.stringify(response.data.token));
       dispatch(authSuccess(response.data.token));
     }
 
     return response.data;
-  } catch (error) {}
+  } catch (error) {
+    // if the response is unsuccessful, dispatch AUTH_FAILURE with the error message
+    dispatch(authFailure(error.message));
+  }
 };
 
-// // Logout user
-// const logout = () => {
-//   localStorage.removeItem("user");
-// };
+// Logout user
+export const logoutFun = () => (dispatch) => {
+  try {
+    dispatch(logout());
+    localStorage.removeItem("userDetails");
+    localStorage.removeItem("token");
+  } catch (error) {
+    dispatch(authFailure(error.message));
+  }
+};

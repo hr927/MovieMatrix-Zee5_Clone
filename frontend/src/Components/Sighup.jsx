@@ -16,7 +16,7 @@ import {
 import { useRef, useState } from "react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { register } from "../Redux/Authentication/action";
 
@@ -34,6 +34,7 @@ export default function Sighup() {
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
   const [formError, setFormError] = useState("");
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
@@ -78,7 +79,6 @@ export default function Sighup() {
   }
 
   const handleSubmit = () => {
- 
     // Check if there are any errors
     if (emailError || passwordError || confirmPasswordError) {
       setFormError("Please fix the errors below.");
@@ -90,7 +90,6 @@ export default function Sighup() {
       };
       console.log("userDetails: ", userDetails);
 
-    
       dispatch(register(userDetails)).then((res) => {
         console.log("res: ", res);
         // if(res.data.msg){
@@ -100,6 +99,7 @@ export default function Sighup() {
           status: "success",
           duration: 4000,
           isClosable: true,
+          //   navigate: navigate("/login"),
         });
         setname("");
         setEmail("");
