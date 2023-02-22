@@ -44,9 +44,9 @@ export default function CaptionCarousel() {
   useEffect(() => {
     fetch(`http://localhost:8080/media?tags=Trending`).then(res=>res.json()).then((res)=>{
       settrending(res)
-      console.log(res)}).catch(err => console.log(err))
+      }).catch(err => console.log(err))
   }, []);
-
+console.log(trending)
 
   const cards = [
     {
@@ -116,16 +116,16 @@ export default function CaptionCarousel() {
       </IconButton>
       {/* Slider */}
       <Slider {...settings} ref={(slider) => setSlider(slider)}>
-        {trending.map((card, index) => (
+        {trending?.map((card) => (
           <Box
-            key={index}
+            key={card._id}
             height={'6xl'}
             position="relative"
             backgroundPosition="center"
             backgroundRepeat="no-repeat"
             backgroundSize="cover"
             backgroundImage={`url(${card.poster})`}>
-            {/* This is the block you need to change, to customize the caption */}
+           
             <Container size="container.lg" height="600px" position="relative">
               <Stack
                 spacing={6}
@@ -137,9 +137,7 @@ export default function CaptionCarousel() {
                 <Heading fontSize={{ base: '3xl', md: '4xl', lg: '5xl' }}>
                   {card.title}
                 </Heading>
-                <Text fontSize={{ base: 'md', lg: 'lg' }} color="GrayText">
-                  {card.text}
-                </Text>
+                
               </Stack>
             </Container>
           </Box>
