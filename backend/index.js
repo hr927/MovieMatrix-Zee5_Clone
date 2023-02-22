@@ -17,7 +17,7 @@ app.get("/", (req, res) => {
 
 app.use("/admin", adminRouter);
 app.use("/user", userRouter);
-app.use(authenticate);
+// app.use(authenticate);
 app.use("/media", mediaRouter);
 app.listen(process.env.port, async () => {
   try {
