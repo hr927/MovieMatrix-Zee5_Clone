@@ -12,23 +12,27 @@ userRouter.post("/register", async (req, res) => {
       name,
       email,
     });
-    if (user.length > 0) {
-      res.send({ msg: "User already exists" });
+    if (name === "" || email === "" || password === "") {
+      res.send({ msg: "Please Enter all Details" });
     } else {
-      bcrypt.hash(password, 3, async (err, hash) => {
-        // Store hash in your password DB.
-        if (err) {
-          res.send({ msg: "Something went Wrong", error: err });
-        } else {
-          const newUser = new UserModel({
-            name,
-            email,
-            password: hash,
-          });
-          await newUser.save();
-          res.send({ msg: "New User Registered" });
-        }
-      });
+      if (user.length > 0) {
+        res.send({ data: { name, email }, msg: "User already exists" });
+      } else {
+        bcrypt.hash(password, 3, async (err, hash) => {
+          // Store hash in your password DB.
+          if (err) {
+            res.send({ msg: "Something went Wrong", error: err });
+          } else {
+            const newUser = new UserModel({
+              name,
+              email,
+              password: hash,
+            });
+            await newUser.save();
+            res.send({ data: { name, email }, msg: "New User Registered" });
+          }
+        });
+      }
     }
   } catch (err) {
     res.send({ msg: "Something went Wrong", error: err });
