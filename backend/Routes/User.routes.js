@@ -60,4 +60,14 @@ userRouter.post("/login", async (req, res) => {
   }
 });
 
+userRouter.post('/logout/:auth_token', (req, res) => {
+  // Clear authentication token from client's cookie or local storage
+  res.clearCookie('auth_token'); // If using cookies
+  // OR
+  // localStorage.removeItem('auth_token'); // If using local storage
+
+  // Respond with success message
+  res.status(200).json({ message: 'Logout successful' });
+});
+
 module.exports = { userRouter };
