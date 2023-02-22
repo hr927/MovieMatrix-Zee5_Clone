@@ -1,0 +1,92 @@
+.entireBody {
+  background-color: #0f0617;
+}
+
+/* .textOverlay {
+  color: white;
+  font-size: 12px;
+  line-height: 12px;
+  position: absolute;
+  top: 2%;
+  left: 1.5%;
+} */
+
+.discountBody {
+  padding: 9px 30px 9px 20px;
+  background-color: #401a4c;
+  color: white;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 600;
+  position: relative;
+  bottom: 7px;
+}
+.discountBody Button {
+  font-size: 11px;
+  height: 30px;
+}
+.hoverEffect {
+  font-size: 14px;
+  color: #a785ff;
+  cursor: pointer;
+  font-weight: 500;
+}
+.simpleText {
+  font-size: 14px;
+  color: grey;
+  font-weight: 500;
+}
+.btnText {
+  color: grey;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.btnSize {
+  background-color: #2a25306d;
+  padding: 18px 30px 18px 30px;
+  align-items: center;
+  text-align: center;
+  line-height: 10px;
+}
+.buttonBody {
+  padding-top: 10px;
+}
+.contextType {
+  color: white;
+}
+.plotText {
+  color: rgba(255, 255, 255, 0.515);
+  line-height: 21px;
+  font-size: 15.5px;
+  font-weight: 500;
+}
+.recommendedBody {
+  padding-top: 15px;
+}
+.heading {
+  font-size: 23px;
+  color: white;
+  font-weight: 600;
+  margin-top: 10px;
+}
+.contentBody {
+  border: 2px solid #38303a8d;
+  border-radius: 5px;
+  padding: 15px;
+}
+
+.question {
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  width: 40%;
+}
+.answer {
+  background-color: #38303a8d;
+  padding: 4px 15px;
+  border-radius: 20px;
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+}
