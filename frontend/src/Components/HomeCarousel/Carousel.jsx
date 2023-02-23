@@ -42,7 +42,7 @@ export default function CaptionCarousel() {
   // This can be static or loaded from a server
 
   useEffect(() => {
-    getdata()
+    getdata("Trending")
       
       .then((res) => {
         settrending(res.data);

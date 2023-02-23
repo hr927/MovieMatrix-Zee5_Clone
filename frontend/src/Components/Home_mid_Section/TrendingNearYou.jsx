@@ -7,7 +7,7 @@ import { getdata } from "./api";
 const TrendingNearYou = () => {
   const [trending, settrending] = React.useState(null);
   React.useEffect(() => {
-    getdata()
+    getdata("Trending")
       .then((res) => {
         settrending(res.data);
         console.log(res);
