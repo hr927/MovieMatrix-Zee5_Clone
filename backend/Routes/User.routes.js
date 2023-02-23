@@ -56,7 +56,7 @@ userRouter.post("/login", async (req, res) => {
         }
       });
     } else {
-      res.send({ msg: "Invalid Credentials" });
+      res.send({ msg: "Please Regiseter First" });
     }
   } catch (err) {
     res.send({ msg: "Something went Wrong", error: err });
@@ -75,7 +75,6 @@ userRouter.post("/logout/:auth_token", (req, res) => {
 
 // const User = require('./models/user');
 
-
 userRouter.post("/reset-password", async (req, res) => {
   const { email } = req.body;
 
@@ -92,7 +91,8 @@ userRouter.post("/reset-password", async (req, res) => {
     await user.save();
 
     const transporter = nodemailer.createTransport({
-      service: "gmail",
+      // service: "gmail",
+      host: "smtp.gmail.com",
       auth: {
         user: process.env.GMAIL_USER,
         pass: process.env.GMAIL_PASSWORD,
@@ -104,8 +104,8 @@ userRouter.post("/reset-password", async (req, res) => {
       from: process.env.GMAIL_USER,
       subject: "Password Reset",
       text: `You are receiving this email because you (or someone else) has requested a password reset for your account.\n\n
-        Please click on the following link, or paste this into your browser to complete the process:\n\n
-        ${process.env.CLIENT_URL}/reset-password/${token}\n\n
+        Please  paste this token into your browser to complete the process:
+        Token:${token}
         If you did not request this, please ignore this email and your password will remain unchanged.\n`,
     };
 
@@ -152,3 +152,5 @@ userRouter.post("/reset-password/:token", async (req, res) => {
 });
 
 module.exports = { userRouter };
+
+//${process.env.CLIENT_URL}/reset-password/${token}\n\n
