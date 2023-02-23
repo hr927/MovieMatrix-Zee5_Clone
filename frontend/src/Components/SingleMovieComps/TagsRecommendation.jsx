@@ -6,15 +6,16 @@ import CardForDetails from "./CardForDetails";
 import { responsive } from "./responsive";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import { Link } from "react-router-dom";
 
-const Recommended = ({ singleMovieData }) => {
-  const genreRecommendation = singleMovieData.genre[0];
+const TagsRecommended = ({ singleMovieData }) => {
+  const tagsRecommendation = singleMovieData.tags[0];
   const currentMovieId = singleMovieData._id;
 
   const [recommendedData, setRecommendedData] = useState([]);
 
   const getdata = (query) => {
-    axios.get(`http://localhost:8080/media?genre=${query}`).then((res) => {
+    axios.get(`http://localhost:8080/media?tags=${query}`).then((res) => {
       const data = res.data.filter((el) => {
         if (el._id !== currentMovieId) {
           return el;
@@ -23,22 +24,23 @@ const Recommended = ({ singleMovieData }) => {
       setRecommendedData(data);
     });
   };
-  recommendedData.reverse();
 
   useEffect(() => {
-    getdata(genreRecommendation);
+    getdata(tagsRecommendation);
   }, []);
 
   return (
     <div>
       <Box mt={1} textAlign="left">
-        <Text fontSize="xl" fontWeight="500" my={7} className="z-0">
-          Similar {singleMovieData.mediaType}s
+        <Text fontSize="xl" fontWeight="500" my={7}>
+          Recommended {singleMovieData.mediaType}s
         </Text>
 
         <Carousel showDots={false} responsive={responsive}>
           {recommendedData?.map((item, index) => (
-            <CardForDetails key={index} item={item} index={index} />
+            <Link to={`details/${item._id}`}>
+              <CardForDetails key={index} item={item} index={index} />
+            </Link>
           ))}
         </Carousel>
       </Box>
@@ -46,4 +48,4 @@ const Recommended = ({ singleMovieData }) => {
   );
 };
 
-export default Recommended;
+export default TagsRecommended;
