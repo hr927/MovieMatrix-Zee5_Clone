@@ -7,10 +7,13 @@ import UserNavbar from "./Components/UserNavbar/UserNavbar";
 function App() {
   return (
     <div className="App">
+
       <UserNavbar />
       <CaptionCarousel/>
       <TrendingNearYou/>
       <Footer/>
+
+
     </div>
   );
 }
