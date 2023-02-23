@@ -31,21 +31,42 @@ export default function Login() {
 
   const handleLogin = () => {
     // console.log("click");
-    let userDetails = {
-      email,
-      password,
-    };
-    dispatch(login(userDetails)).then((res) => {
-      //   console.log("res: ", res);
+    if (email === "" || password === "") {
       toast({
-        title: `${res.msg}`,
-        status: "success",
+        title: `Please Fill All the Data`,
+        status: "info",
         duration: 2000,
         isClosable: true,
-        navigate: navigate("/"),
+        position: "top",
       });
-      //   console.log(res);
-    });
+    } else {
+      let userDetails = {
+        email,
+        password,
+      };
+      dispatch(login(userDetails)).then((res) => {
+        console.log("res: ", res);
+        if (res.token) {
+          toast({
+            title: `${res.msg}`,
+            status: "success",
+            duration: 2000,
+            isClosable: true,
+            navigate: navigate("/"),
+          });
+          setEmail("");
+          setPassword("");
+        } else {
+          toast({
+            title: `${res.msg}`,
+            status: "error",
+            duration: 2000,
+            isClosable: true,
+          });
+        }
+        //   console.log(res);
+      });
+    }
   };
 
   //   const hadleLogout = () => {
@@ -112,14 +133,20 @@ export default function Login() {
                   justify={"space-between"}
                 >
                   <Checkbox>Remember me</Checkbox>
-                  <Link style={{ color: "rgb(193 152 227)" }}>
+                  <Link
+                    to={"/forget-password"}
+                    style={{ color: "rgb(193 152 227)" }}
+                  >
                     Forgot password?
                   </Link>
                 </Stack>
                 <Button
-                  bg={"rgb(193 152 227)"}
+                  bg={"#f7cb93"}
                   color={"white"}
                   onClick={handleLogin}
+                  _hover={{
+                    bg: "rgb(193 152 227)",
+                  }}
                 >
                   Sign in
                 </Button>
