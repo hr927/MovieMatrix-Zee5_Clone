@@ -120,10 +120,15 @@ export default function CaptionCarousel() {
                 top="50%"
                 transform="translate(0, -50%)"
               >
+                {/* <Button onClick={()=>navigate(`/details/${card._id}`)} color={"black"}>Watch</Button> */}
+
                 <Text fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }}>
                   {card.title}
                 </Text>
-                <Button onClick={()=>navigate(`../details/${card._id}`)} color={"black"}>Watch</Button>
+                {/* <Text fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }}>
+                  {card._id}
+                </Text> */}
+                <Button onClick={()=>navigate(`/details/${card._id}`)} color={"black"}>Watch</Button>
               </Stack>
             </Container>
           </Box>
