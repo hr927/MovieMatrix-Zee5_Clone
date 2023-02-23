@@ -1,13 +1,19 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
+import Login from "../Components/Login";
+import PrivateRoute from "../Components/PrivateRoute";
+import Sighup from "../Components/Sighup";
 import Admin from "../Components/Admin/Admin";
 
-const AllRoutes = () => {
+export default function AllRoutes() {
   return (
-    <Routes>
-      <Route path="/admin" element={<Admin />}></Route>
-    </Routes>
+    <div>
+      <Routes>
+        <Route path="/sighup" element={<Sighup></Sighup>} />
+        <Route path="/login" element={<Login />} />
+         <Route path="/admin" element={<Admin />}></Route>
+      </Routes>
+    </div>
   );
-};
+}
 
-export default AllRoutes;

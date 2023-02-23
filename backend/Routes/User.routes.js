@@ -2,18 +2,11 @@ const express = require("express");
 const { UserModel } = require("../Model/User.model");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const { authenticate } = require("../Middleware/authenticate.middleware");
+const crypto = require("crypto");
+const nodemailer = require("nodemailer");
+require("dotenv").config();
 
 const userRouter = express.Router();
-
-userRouter.get("/", authenticate, async (req, res) => {
-  try {
-    const users = await UserModel.find();
-    res.send(users);
-  } catch (err) {
-    res.send({ msg: "Something went wrong", error: err.message });
-  }
-});
 
 userRouter.post("/register", async (req, res) => {
   const { name, email, password } = req.body;
@@ -22,26 +15,30 @@ userRouter.post("/register", async (req, res) => {
       name,
       email,
     });
-    if (user.length > 0) {
-      res.send({ msg: "User already exists" });
+    if (name === "" || email === "" || password === "") {
+      res.send({ msg: "Please Enter all Details" });
     } else {
-      bcrypt.hash(password, 3, async (err, hash) => {
-        // Store hash in your password DB.
-        if (err) {
-          res.send({ msg: "Something went Wrong", error: err.message });
-        } else {
-          const newUser = new UserModel({
-            name,
-            email,
-            password: hash,
-          });
-          await newUser.save();
-          res.send({ msg: "New User Registered" });
-        }
-      });
+      if (user.length > 0) {
+        res.send({ data: { name, email }, msg: "User already exists" });
+      } else {
+        bcrypt.hash(password, 3, async (err, hash) => {
+          // Store hash in your password DB.
+          if (err) {
+            res.send({ msg: "Something went Wrong", error: err });
+          } else {
+            const newUser = new UserModel({
+              name,
+              email,
+              password: hash,
+            });
+            await newUser.save();
+            res.send({ data: { name, email }, msg: "New User Registered" });
+          }
+        });
+      }
     }
   } catch (err) {
-    res.send({ msg: "Something went Wrong", error: err.message });
+    res.send({ msg: "Something went Wrong", error: err });
   }
 });
 
@@ -62,17 +59,95 @@ userRouter.post("/login", async (req, res) => {
       res.send({ msg: "Invalid Credentials" });
     }
   } catch (err) {
-    res.send({ msg: "Something went Wrong", error: err.message });
+    res.send({ msg: "Something went Wrong", error: err });
   }
 });
 
-userRouter.delete("/delete/:id", async (req, res) => {
-  const userID = req.params.id;
+userRouter.post("/logout/:auth_token", (req, res) => {
+  // Clear authentication token from client's cookie or local storage
+  res.clearCookie("auth_token"); // If using cookies
+  // OR
+  // localStorage.removeItem('auth_token'); // If using local storage
+
+  // Respond with success message
+  res.status(200).json({ message: "Logout successful" });
+});
+
+// const User = require('./models/user');
+
+
+userRouter.post("/reset-password", async (req, res) => {
+  const { email } = req.body;
+
   try {
-    const user = await UserModel.findByIdAndDelete({ _id: userID });
-    res.send("User Deleted");
-  } catch (err) {
-    res.send({ msg: "Something went Wrong", error: err.message });
+    const user = await UserModel.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const token = crypto.randomBytes(20).toString("hex");
+    user.resetPasswordToken = token;
+    user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+
+    await user.save();
+
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.GMAIL_USER,
+        pass: process.env.GMAIL_PASSWORD,
+      },
+    });
+
+    const mailOptions = {
+      to: user.email,
+      from: process.env.GMAIL_USER,
+      subject: "Password Reset",
+      text: `You are receiving this email because you (or someone else) has requested a password reset for your account.\n\n
+        Please click on the following link, or paste this into your browser to complete the process:\n\n
+        ${process.env.CLIENT_URL}/reset-password/${token}\n\n
+        If you did not request this, please ignore this email and your password will remain unchanged.\n`,
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    return res.status(200).json({ message: "Email sent" });
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ message: "Internal Server Error", error: error.message });
+  }
+});
+
+userRouter.post("/reset-password/:token", async (req, res) => {
+  const { token } = req.params;
+  const { password } = req.body;
+
+  try {
+    const user = await UserModel.findOne({
+      resetPasswordToken: token,
+      resetPasswordExpires: { $gt: Date.now() },
+    });
+
+    if (!user) {
+      return res
+        .status(400)
+        .json({ message: "Password reset token is invalid or has expired." });
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+    user.password = hashedPassword;
+    user.resetPasswordToken = null;
+    user.resetPasswordExpires = null;
+
+    await user.save();
+
+    return res.status(200).json({ message: "Password updated successfully" });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 });
 
