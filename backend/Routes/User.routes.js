@@ -2,8 +2,18 @@ const express = require("express");
 const { UserModel } = require("../Model/User.model");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const { authenticate } = require("../Middleware/authenticate.middleware");
 
 const userRouter = express.Router();
+
+userRouter.get("/", authenticate, async (req, res) => {
+  try {
+    const users = await UserModel.find();
+    res.send(users);
+  } catch (err) {
+    res.send({ msg: "Something went wrong", error: err.message });
+  }
+});
 
 userRouter.post("/register", async (req, res) => {
   const { name, email, password } = req.body;
@@ -18,7 +28,7 @@ userRouter.post("/register", async (req, res) => {
       bcrypt.hash(password, 3, async (err, hash) => {
         // Store hash in your password DB.
         if (err) {
-          res.send({ msg: "Something went Wrong", error: err });
+          res.send({ msg: "Something went Wrong", error: err.message });
         } else {
           const newUser = new UserModel({
             name,
@@ -31,7 +41,7 @@ userRouter.post("/register", async (req, res) => {
       });
     }
   } catch (err) {
-    res.send({ msg: "Something went Wrong", error: err });
+    res.send({ msg: "Something went Wrong", error: err.message });
   }
 });
 
@@ -52,7 +62,17 @@ userRouter.post("/login", async (req, res) => {
       res.send({ msg: "Invalid Credentials" });
     }
   } catch (err) {
-    res.send({ msg: "Something went Wrong", error: err });
+    res.send({ msg: "Something went Wrong", error: err.message });
+  }
+});
+
+userRouter.delete("/delete/:id", async (req, res) => {
+  const userID = req.params.id;
+  try {
+    const user = await UserModel.findByIdAndDelete({ _id: userID });
+    res.send("User Deleted");
+  } catch (err) {
+    res.send({ msg: "Something went Wrong", error: err.message });
   }
 });
 
