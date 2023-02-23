@@ -79,7 +79,7 @@ function SingleCard({ item, index }) {
           bottom={0}
           borderRadius={"lg"}
           flexFlow={"column-reverse"}
-          border="4px solid whitesmoke"
+          border="8px solid whitesmoke"
         >
           <VStack
             py={0}
