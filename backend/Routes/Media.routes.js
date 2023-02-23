@@ -1,4 +1,5 @@
 const express = require("express");
+const { authenticate } = require("../Middleware/authenticate.middleware");
 const { MediaModel } = require("../Model/Media.model");
 
 const mediaRouter = express.Router();
@@ -23,7 +24,7 @@ mediaRouter.get("/details/:id", async (req, res) => {
   }
 });
 
-mediaRouter.post("/create", async (req, res) => {
+mediaRouter.post("/create", authenticate, async (req, res) => {
   const payload = req.body;
   try {
     const media = new MediaModel(payload);
@@ -34,7 +35,7 @@ mediaRouter.post("/create", async (req, res) => {
   }
 });
 
-mediaRouter.patch("/update/:id", async (req, res) => {
+mediaRouter.patch("/update/:id", authenticate, async (req, res) => {
   const mediaID = req.params.id;
   const payload = req.body;
   try {
@@ -45,7 +46,7 @@ mediaRouter.patch("/update/:id", async (req, res) => {
   }
 });
 
-mediaRouter.delete("/create/:id", async (req, res) => {
+mediaRouter.delete("/delete/:id", authenticate, async (req, res) => {
   const mediaID = req.params.id;
   try {
     const media = await MediaModel.findByIdAndDelete({ _id: mediaID });
