@@ -7,11 +7,14 @@ import {
   Heading,
   Text,
   Container,
+  Button,
 } from "@chakra-ui/react";
 // Here we have used react-icons package for the icons
 import { BiLeftArrowAlt, BiRightArrowAlt } from "react-icons/bi";
 // And react-slick as our Carousel Lib
 import Slider from "react-slick";
+import { Link,useNavigate } from "react-router-dom";
+
 import { getdata } from "../Home_mid_Section/api";
 
 // Settings for the slider
@@ -32,6 +35,7 @@ export default function CaptionCarousel() {
   // change the state
   const [slider, setSlider] = useState(null);
   const [trending, settrending] = useState(null);
+  const navigate = useNavigate();
 
   // These are the breakpoints which changes the position of the
   // buttons as the screen size changes
@@ -97,7 +101,7 @@ export default function CaptionCarousel() {
       </IconButton>
       {/* Slider */}
       <Slider {...settings} ref={(slider) => setSlider(slider)}>
-        {trending?.map((card) => (
+        {trending?.map((card,i) => (
           <Box
             key={card._id}
             height={"6xl"}
@@ -116,9 +120,10 @@ export default function CaptionCarousel() {
                 top="50%"
                 transform="translate(0, -50%)"
               >
-                <Heading fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }}>
+                <Text fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }}>
                   {card.title}
-                </Heading>
+                </Text>
+                <Button onClick={()=>navigate(`../details/${card._id}`)} color={"black"}>Watch</Button>
               </Stack>
             </Container>
           </Box>

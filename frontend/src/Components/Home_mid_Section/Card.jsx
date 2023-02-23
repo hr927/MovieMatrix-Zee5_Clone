@@ -9,12 +9,12 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { AiOutlineShareAlt } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import { FaCrown, FaPlay } from "react-icons/fa";
 
 function SingleCard({ item, index }) {
   const [state, setState] = useState(false);
-
+  const navigate = useNavigate();
 
   return (
     <GridItem
@@ -31,6 +31,7 @@ function SingleCard({ item, index }) {
     //     transform: "scale(1)"
     //   }}
     >
+      <Link to={`../details/${item._id}`}>
       <Box>
         <Image src={item.poster} alt={item.title} borderRadius="lg" h="300px" w="100%" />
         {
@@ -94,7 +95,7 @@ function SingleCard({ item, index }) {
               ● {item.title}
             </Text>
             <Flex alignItems={"center"} gap={2}>
-              <Button size="xs" colorScheme="black" variant="outline" ml={2}>
+              <Button size="xs" colorScheme="black" variant="outline" ml={2} onClick={()=>navigate(`../details/${item._id}`)}>
                 Watch
               </Button>
               <Flex
@@ -110,6 +111,7 @@ function SingleCard({ item, index }) {
           </VStack>
         </VStack>
       )}
+      </Link>
     </GridItem>
   );
 }
