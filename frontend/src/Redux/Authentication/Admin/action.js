@@ -1,3 +1,4 @@
+import axios from "axios";
 import {
   ADMIN_FAILURE,
   ADMIN_LOGOUT,
@@ -22,7 +23,7 @@ export const logout = () => ({
 });
 
 // Register user
-export const register = (userData) => async (dispatch) => {
+export const Adminregister = (userData) => async (dispatch) => {
   try {
     dispatch(adminRequest());
 
@@ -42,7 +43,7 @@ export const register = (userData) => async (dispatch) => {
   }
 };
 
-export const login = (userData) => async (dispatch) => {
+export const adminlogin = (userData) => async (dispatch) => {
   try {
     dispatch(adminRequest());
 
@@ -66,7 +67,7 @@ export const login = (userData) => async (dispatch) => {
 };
 
 // Logout user
-export const logoutFun = () => (dispatch) => {
+export const AdminlogoutFun = () => (dispatch) => {
   try {
     dispatch(logout());
     localStorage.removeItem("AdminDetails");

@@ -15,13 +15,14 @@ import {
   InputGroup,
   useToast,
 } from "@chakra-ui/react";
-import axios from "axios";
+
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { login, logoutFun } from "../Redux/Authentication/action";
+import { adminlogin } from "../Redux/Authentication/Admin/action";
+// import { AdminLogin } from "../Redux/Authentication/action";
 
-export default function Login() {
+export default function AdminLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -44,7 +45,7 @@ export default function Login() {
         email,
         password,
       };
-      dispatch(login(userDetails)).then((res) => {
+      dispatch(adminlogin(userDetails)).then((res) => {
         console.log("res: ", res);
         if (res.token) {
           toast({
@@ -52,7 +53,7 @@ export default function Login() {
             status: "success",
             duration: 2000,
             isClosable: true,
-            navigate: navigate("/"),
+            navigate: navigate("/admin"),
           });
           setEmail("");
           setPassword("");
@@ -90,11 +91,10 @@ export default function Login() {
             <Stack spacing={4}>
               <Stack align={"center"}>
                 <Heading fontSize={"3xl"} textAlign={"center"}>
-                  Login to <span style={{ color: "#e2c1a2" }}>MovieMatrix</span>{" "}
+                  Login From <span style={{ color: "#e2c1a2" }}>ADMIN</span>{" "}
                 </Heading>
                 <Text fontSize={"lg"} color={"gray.600"}>
-                  Login to continue enjoying uninterrupted video and
-                  personalised experience.
+                  Welcome Back, Administrator.
                 </Text>
               </Stack>
               <FormControl id="email">
@@ -104,7 +104,6 @@ export default function Login() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter Email"
-
                 />
               </FormControl>
               <FormControl id="password">
@@ -116,7 +115,6 @@ export default function Login() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Enter Password"
-
                   />
                   <InputRightElement h={"full"}>
                     <Button
@@ -131,20 +129,8 @@ export default function Login() {
                 </InputGroup>
               </FormControl>
               <Stack spacing={10}>
-                <Stack
-                  direction={{ base: "column", sm: "row" }}
-                  align={"start"}
-                  justify={"space-between"}
-                >
-                  <Checkbox>Remember me</Checkbox>
-                  <Link
-                    to={"/forget-password"}
-                    style={{ color: "rgb(193 152 227)" }}
-                  >
-                    Forgot password?
-                  </Link>
-                </Stack>
                 <Button
+                  mt={"6"}
                   bg={"#f7cb93"}
                   color={"white"}
                   onClick={handleLogin}
@@ -154,17 +140,6 @@ export default function Login() {
                 >
                   Sign in
                 </Button>
-                <Stack pt={6}>
-                  <Text align={"center"}>
-                    New to MovieMatrix ?{" "}
-                    <Link to={"/sighup"} color={"rgb(193 152 227)"}>
-                      <span style={{ color: "rgb(193 152 227)" }}>
-                        {" "}
-                        Register{" "}
-                      </span>
-                    </Link>
-                  </Text>
-                </Stack>
               </Stack>
             </Stack>
           </Box>

@@ -22,7 +22,7 @@ userRouter.get("/", authenticate, async (req, res) => {
 });
 
 userRouter.post("/register", async (req, res) => {
-  const { name, email, password, bio, skills, img } = req.body;
+  const { name, email, password, bio, preference, img } = req.body;
   try {
     const user = await UserModel.find({
       email,
@@ -32,7 +32,7 @@ userRouter.post("/register", async (req, res) => {
     } else {
       if (user.length > 0) {
         res.send({
-          data: { name, email, bio, skills, img },
+          data: { name, email, bio, preference, img },
           msg: "User already exists",
         });
       } else {
@@ -48,7 +48,7 @@ userRouter.post("/register", async (req, res) => {
             });
             await newUser.save();
             res.send({
-              data: { name, email, bio, skills, img },
+              data: { name, email, bio, preference, img },
               msg: "New User Registered",
             });
           }
@@ -171,7 +171,7 @@ userRouter.post("/reset-password/:token", async (req, res) => {
 
 userRouter.put("/profile", async (req, res) => {
   try {
-    const { name, email, bio, skills, img } = req.body;
+    const { name, email, bio, preference, img } = req.body;
 
     const findEmail = await UserModel.find({ email });
     console.log("findEmail: ", findEmail);
@@ -182,7 +182,7 @@ userRouter.put("/profile", async (req, res) => {
 
       const user = await UserModel.findByIdAndUpdate(
         { _id: ID },
-        { name, email, bio, skills, img },
+        { name, email, bio, preference, img },
         { new: true }
       );
       console.log("user: ", user);
@@ -195,28 +195,6 @@ userRouter.put("/profile", async (req, res) => {
     res.status(500).send("Server Error");
   }
 });
-
-
-
-
-// // configure multer storage options
-// const storage = multer.diskStorage({
-//   destination: function (req, file, cb) {
-//     cb(null, 'uploads/')
-//   },
-//   filename: function (req, file, cb) {
-//     cb(null, file.originalname)
-//   }
-// })
-
-// const upload = multer({ storage: storage })
-
-// // define the route for file upload
-// userRouter.post('/upload', upload.single('image'), (req, res) => {
-//   // handle the file upload here
-//   console.log(req.file);
-//   res.send('File uploaded successfully');
-// });
 
 module.exports = { userRouter };
 
