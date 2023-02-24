@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   AlertDialog,
   AlertDialogBody,
@@ -13,19 +13,45 @@ import {
   Input,
 } from "@chakra-ui/react";
 import Rating from "react-star-review";
+import axios from "axios";
+const userInfo = localStorage.getItem("userDetails") || {
+  name: "Unknown user",
+};
+const AuthorizationToken = localStorage.getItem("token");
 
-const AddReview = ({ setDisableBtn, onClose, isOpen, onOpen }) => {
+const AddReview = ({
+  refreshReviews,
+  setRefreshReviews,
+  onClose,
+  isOpen,
+  singleMovieData,
+}) => {
   const cancelRef = React.useRef();
   const toast = useToast();
-  const [reviewText, setReviewText] = useState("");
+  const [reviewBody, setreviewBody] = useState("");
   const [reviewHeading, setReviewHeading] = useState("");
-  const reviewObject = {
-    reviewHeading,
-    reviewText,
+  const [starsCount, setStarsCount] = useState(1);
+
+  const reviewDataObj = {
+    showId: singleMovieData._id,
+    userName: userInfo.name,
+    showName: singleMovieData.title,
+    heading: reviewHeading,
+    body: reviewBody,
+    stars: starsCount,
+  };
+
+  const config = {
+    headers: {
+      Authorization: AuthorizationToken,
+    },
   };
   const handleReview = () => {
-    setDisableBtn(true);
-    console.log(reviewObject);
+    axios
+      .post(`http://localhost:8080/review/create`, reviewDataObj, config)
+      .then((res) => {
+        setRefreshReviews(!refreshReviews);
+      });
 
     onClose();
     toast({
@@ -35,6 +61,7 @@ const AddReview = ({ setDisableBtn, onClose, isOpen, onOpen }) => {
       isClosable: true,
     });
   };
+
   return (
     <>
       <AlertDialog
@@ -53,7 +80,7 @@ const AddReview = ({ setDisableBtn, onClose, isOpen, onOpen }) => {
             <Rating
               rating={1}
               interactive
-              onRatingChanged={(r) => console.log(r)}
+              onRatingChanged={(r) => setStarsCount(r)}
             />
             <Input
               value={reviewHeading}
@@ -62,8 +89,8 @@ const AddReview = ({ setDisableBtn, onClose, isOpen, onOpen }) => {
               placeholder="Heading"
             />
             <Textarea
-              value={reviewText}
-              onChange={(e) => setReviewText(e.target.value)}
+              value={reviewBody}
+              onChange={(e) => setreviewBody(e.target.value)}
               placeholder="Body"
               mt="5px"
             />
