@@ -25,6 +25,10 @@ const SingleMovie = () => {
 
   useEffect(() => {
     const id = params.id;
+
+    // const id = "63f4cb53d9c7f36e3760a9d2";
+
+
     getData(id);
   }, []);
 
