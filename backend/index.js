@@ -6,6 +6,7 @@ const { adminRouter } = require("./Routes/Admin.routes");
 const { userRouter } = require("./Routes/User.routes");
 const { authenticate } = require("./Middleware/authenticate.middleware");
 const { mediaRouter } = require("./Routes/Media.routes");
+const { reviewRouter } = require("./Routes/Review.routes");
 
 const app = express();
 app.use(cors({ origin: "*" }));
@@ -19,6 +20,7 @@ app.use("/admin", adminRouter);
 app.use("/user", userRouter);
 // app.use(authenticate);
 app.use("/media", mediaRouter);
+app.use("/review", reviewRouter);
 app.listen(process.env.port, async () => {
   try {
     await connection;
