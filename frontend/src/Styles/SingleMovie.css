@@ -90,3 +90,25 @@
   font-size: 14px;
   font-weight: 500;
 }
+
+.reviewBody {
+  max-height: 700px;
+  overflow-y: scroll;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.reviewInfo {
+  border: 2px solid black;
+  width: 50px;
+}
+
+.review {
+  border: 2px solid #2a25306d;
+  width: 90%;
+  padding: 10px;
+  border-radius: 5px;
+}
+.reviewText {
+  font-size: 12px;
+}
