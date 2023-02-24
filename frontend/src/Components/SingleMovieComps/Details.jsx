@@ -51,8 +51,10 @@ const Details = ({ singleMovieData }) => {
         <Text className="simpleText">English</Text>
       </Flex>
 
-      <Flex align={"center"} gap="10px">
-        <Text className="contextType">Overview:</Text>
+      <Flex align={{ base: "start", lg: "center" }} gap="10px">
+        <Text mt={"-6px"} className="contextType">
+          Overview:
+        </Text>
         <Text className="plotText">{singleMovieData.plot}</Text>
       </Flex>
     </Stack>
