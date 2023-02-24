@@ -17,7 +17,9 @@ export default function AllRoutes() {
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/login" element={<Login />} />
         <Route path="/admin-login" element={<AdminLogin />} />
+        
         <Route path="/profile-page" element={<ProfilePage />} />
+
        
       </Routes>
  
