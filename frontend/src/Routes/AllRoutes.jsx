@@ -29,15 +29,14 @@ export default function AllRoutes() {
       <Route path="/admin/users" element={<AdminUsers />}></Route>
       <Route path="/admin/media" element={<AdminMedia />}></Route>
       <Route path="/admin/updatemedia/:id" element={<UpdateMedia />}></Route>
-    </Routes>
-
-    <div>
-      <Routes>
-        <Route path="/sighup" element={<Sighup></Sighup>} />
+      <Route path="/sighup" element={<Sighup></Sighup>} />
         <Route path="/login" element={<Login />} />
          <Route path="/admin" element={<Admin />}></Route>
-      </Routes>
-    </div>
+    </Routes>
+
+   
+       
+      
 
   );
 }

@@ -4,9 +4,10 @@ import { Link,useNavigate } from "react-router-dom";
 
 const CarouselCard = ({item,index}) => {
   const navigate = useNavigate();
-console.log(item)
+// console.log(item._id)
   return (
-    <Box
+    <div>
+      <Box
     key={index}
     height={"6xl"}
     position="relative"
@@ -24,14 +25,12 @@ console.log(item)
         top="50%"
         transform="translate(0, -50%)"
       >
-        <Button onClick={()=>{
-          console.log(index);
-          navigate(`/details/${item._id}`)}} color={"black"}>Watch</Button>
+        <Button color={"black"}>Watch</Button>
 
         <Text fontSize={{ base: "2xl", md: "3xl", lg: "3xl" }}>
           {item.title}
         </Text>
-        <Text fontSize={{ base: "2xl", md: "3xl", lg: "3xl" }}>
+        <Text onClick={()=>console.log(index)} color="white" fontSize={{ base: "2xl", md: "3xl", lg: "3xl" }}>
           {item._id}
         </Text>
         <Link to={`/details/${item._id}`}><Button color="black">Watch</Button></Link>
@@ -39,6 +38,8 @@ console.log(item)
       </Stack>
     </Container>
   </Box>
+    </div>
+    
   )
 }
 

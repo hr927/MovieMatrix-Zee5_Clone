@@ -19,6 +19,7 @@ import {
   InputGroup,
   InputLeftElement,
   Spacer,
+  Tooltip
 } from "@chakra-ui/react";
 import "./UserNavbar.css";
 
@@ -107,7 +108,7 @@ export default function UserNavabr() {
 
           <Flex alignItems={"center"}>
             <Link to="/login">
-              <Button
+              {/* <Button
                 _hover={{
                   color: "#0f0617",
                   bg: "white",
@@ -118,6 +119,40 @@ export default function UserNavabr() {
               >
                 LOGIN
               </Button>
+              <Box>
+                <Button>UserLogin</Button>
+                <Button>AdminLogin</Button>
+
+              </Box> */}
+              <Menu isLazy>
+  <MenuButton  as={Button} _hover={{
+                  
+                  textDecoration: "none",
+                }}
+                color="white"
+                variant="outline"
+                text-decoration= "none"
+              >Login</MenuButton>
+  <MenuList>
+    {/* MenuItems are not rendered unless Menu is open */}
+    <MenuItem _hover={{
+                  color: "white",
+                  bg: "#8230c6",
+                  textDecoration: "none",
+                }}
+                color="Black"
+                variant="outline"
+              >User Login</MenuItem>
+    <MenuItem _hover={{
+                  color: "white",
+                  bg: "#8230c6",
+                  textDecoration: "none",
+                }}
+                color="black"
+                variant="outline"
+              >Admin Login</MenuItem>
+  </MenuList>
+</Menu>
             </Link>
           </Flex>
         </Flex>
