@@ -1,12 +1,12 @@
 const mongoose = require("mongoose");
 
 const watchListSchema = mongoose.Schema({
-  userId: String,
-  showId: String,
-  showName: String,
-  showPoster: String,
+  user: String,
+  mediaId: String,
+  mediaName: String,
+  mediaPoster: String,
 });
 
-const WatchListModel = mongoose.model("review", watchListSchema);
+const WatchListModel = mongoose.model("watchList", watchListSchema);
 
 module.exports = { WatchListModel };

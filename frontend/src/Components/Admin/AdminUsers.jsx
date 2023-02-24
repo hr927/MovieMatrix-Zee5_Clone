@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import UserTable from "./UserTable";
 import { Heading, useToast } from "@chakra-ui/react";
+import AdminNav from "./AdminNav";
 
 const AdminUsers = () => {
   const [users, setUsers] = useState([]);
@@ -14,12 +15,15 @@ const AdminUsers = () => {
   const getUsers = async () => {
     // console.log("in");
     try {
-      const response = await axios.get("http://localhost:8080/user", {
-        headers: {
-          Authorization:
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2M2Y0OTYwNDJjOWRhZTNmODNlNWZmZGYiLCJpYXQiOjE2NzY5NzQxODB9.8LlUUFyybQj-moWisIi1o2fLGLxAAeP5TGFB0sLYxeQ",
-        },
-      });
+      const response = await axios.get(
+        "https://uninterested-gray-spacesuit.cyclic.app/user",
+        {
+          headers: {
+            Authorization:
+              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2M2Y0OTYwNDJjOWRhZTNmODNlNWZmZGYiLCJpYXQiOjE2NzY5NzQxODB9.8LlUUFyybQj-moWisIi1o2fLGLxAAeP5TGFB0sLYxeQ",
+          },
+        }
+      );
       console.log(response.data);
       setUsers(response.data);
     } catch (err) {
@@ -55,7 +59,8 @@ const AdminUsers = () => {
 
   return (
     <>
-      <div style={{ padding: "20px" }}>
+      <AdminNav />
+      <div style={{ padding: "20px", paddingTop: "120px" }}>
         <Heading>All Users</Heading>
         <div>
           <UserTable users={users} onDeleteUser={handleDeleteUser} />

@@ -13,6 +13,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import AdminNav from "./AdminNav";
 
 const CreateMedia = () => {
   const toast = useToast();
@@ -175,7 +176,10 @@ const CreateMedia = () => {
 
   return (
     <>
-      <div style={{ padding: "10px", textAlign: "center" }}>
+      <AdminNav />
+      <div
+        style={{ padding: "10px", textAlign: "center", paddingTop: "100px" }}
+      >
         <Heading>Add New Media</Heading>
         <Box
           w={["100%", "50%"]}
