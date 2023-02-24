@@ -5,21 +5,36 @@ const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 require("dotenv").config();
+// const multer = require('multer');
+const {authenticate} =require("../Middleware/authenticate.middleware")
+
 
 const userRouter = express.Router();
 
+
+userRouter.get("/", authenticate, async (req, res) => {
+  try {
+    const users = await UserModel.find();
+    res.send(users);
+  } catch (err) {
+    res.send({ msg: "Something went wrong", error: err.message });
+  }
+});
+
 userRouter.post("/register", async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, bio, skills, img } = req.body;
   try {
     const user = await UserModel.find({
-      name,
       email,
     });
     if (name === "" || email === "" || password === "") {
       res.send({ msg: "Please Enter all Details" });
     } else {
       if (user.length > 0) {
-        res.send({ data: { name, email }, msg: "User already exists" });
+        res.send({
+          data: { name, email, bio, skills, img },
+          msg: "User already exists",
+        });
       } else {
         bcrypt.hash(password, 3, async (err, hash) => {
           // Store hash in your password DB.
@@ -32,7 +47,10 @@ userRouter.post("/register", async (req, res) => {
               password: hash,
             });
             await newUser.save();
-            res.send({ data: { name, email }, msg: "New User Registered" });
+            res.send({
+              data: { name, email, bio, skills, img },
+              msg: "New User Registered",
+            });
           }
         });
       }
@@ -150,6 +168,55 @@ userRouter.post("/reset-password/:token", async (req, res) => {
     return res.status(500).json({ message: "Internal Server Error" });
   }
 });
+
+userRouter.put("/profile", async (req, res) => {
+  try {
+    const { name, email, bio, skills, img } = req.body;
+
+    const findEmail = await UserModel.find({ email });
+    console.log("findEmail: ", findEmail);
+
+    if (findEmail) {
+      const ID = findEmail[0]._id;
+      console.log("ID: ", ID);
+
+      const user = await UserModel.findByIdAndUpdate(
+        { _id: ID },
+        { name, email, bio, skills, img },
+        { new: true }
+      );
+      console.log("user: ", user);
+      res.json(user);
+    } else {
+      res.send({ msg: "email is not find" });
+    }
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
+
+
+
+// // configure multer storage options
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, 'uploads/')
+//   },
+//   filename: function (req, file, cb) {
+//     cb(null, file.originalname)
+//   }
+// })
+
+// const upload = multer({ storage: storage })
+
+// // define the route for file upload
+// userRouter.post('/upload', upload.single('image'), (req, res) => {
+//   // handle the file upload here
+//   console.log(req.file);
+//   res.send('File uploaded successfully');
+// });
 
 module.exports = { userRouter };
 
