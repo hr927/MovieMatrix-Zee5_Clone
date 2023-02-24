@@ -16,6 +16,7 @@ import CreateMedia from "../Components/Admin/CreateMedia";
 import UpdateMedia from "../Components/Admin/UpdateMedia";
 import MyReviews from "../Components/MyReviews/MyReviews";
 
+
 export default function AllRoutes() {
   return (
     <Routes>
@@ -32,6 +33,6 @@ export default function AllRoutes() {
       <Route path="/login" element={<Login />} />
       <Route path="/admin" element={<Admin />}></Route>
       <Route path="/myreviews" element={<MyReviews />} />
-    </Routes>
+  </Routes>
   );
 }
