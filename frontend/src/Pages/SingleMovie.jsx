@@ -8,6 +8,8 @@ import Recommended from "../Components/SingleMovieComps/Recommended";
 import Cast from "../Components/SingleMovieComps/Cast";
 import { useParams } from "react-router-dom";
 import LoadingComp from "../Components/SingleMovieComps/LoadingComp";
+import TagsRecommended from "../Components/SingleMovieComps/TagsRecommendation";
+import ReviewSection from "./../Components/SingleMovieComps/ReviewSection";
 
 const SingleMovie = () => {
   const [singleMovieData, setSingleMovieData] = useState([]);
@@ -23,7 +25,10 @@ const SingleMovie = () => {
 
   useEffect(() => {
     const id = params.id;
+
     // const id = "63f4cb53d9c7f36e3760a9d2";
+
+
     getData(id);
   }, []);
 
@@ -39,7 +44,9 @@ const SingleMovie = () => {
           <Trailer singleMovieData={singleMovieData} />
           <Details singleMovieData={singleMovieData} />
           <Cast singleMovieData={singleMovieData} />
+          <TagsRecommended singleMovieData={singleMovieData} />
           <Recommended singleMovieData={singleMovieData} />
+          <ReviewSection />
         </>
       )}
     </Stack>
