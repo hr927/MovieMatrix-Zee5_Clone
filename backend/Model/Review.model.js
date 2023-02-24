@@ -4,6 +4,7 @@ const reviewSchema = mongoose.Schema({
   userId: String,
   showId: String,
   userName: String,
+  showName: String,
   heading: String,
   body: String,
   stars: Number,
