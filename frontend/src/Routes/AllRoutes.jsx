@@ -14,6 +14,8 @@ import AdminMedia from "../Components/Admin/AdminMedia";
 import AdminUsers from "../Components/Admin/AdminUsers";
 import CreateMedia from "../Components/Admin/CreateMedia";
 import UpdateMedia from "../Components/Admin/UpdateMedia";
+import MyReviews from "../Components/MyReviews/MyReviews";
+
 
 export default function AllRoutes() {
   return (
@@ -30,6 +32,7 @@ export default function AllRoutes() {
       <Route path="/sighup" element={<Sighup></Sighup>} />
       <Route path="/login" element={<Login />} />
       <Route path="/admin" element={<Admin />}></Route>
-    </Routes>
+      <Route path="/myreviews" element={<MyReviews />} />
+  </Routes>
   );
 }

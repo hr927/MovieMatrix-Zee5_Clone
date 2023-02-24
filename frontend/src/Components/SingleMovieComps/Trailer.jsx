@@ -7,7 +7,7 @@ const Trailer = ({ singleMovieData }) => {
   return (
     <Stack
       w="100%"
-      h={{ base: "300px", sm: "370px", md: "430px", lg: "550px" }}
+      h={{ base: "300px", sm: "370px", md: "430px", lg: "550px", xl: "630px" }}
       className="trailerBody"
     >
       {/* <Text fontWeight={"700"} className="textOverlay">

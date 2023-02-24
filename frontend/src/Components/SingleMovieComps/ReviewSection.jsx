@@ -46,7 +46,7 @@ const ReviewSection = () => {
   const [disableBtn, setDisableBtn] = useState(false);
 
   return (
-    <Stack>
+    <Stack color={"white"}>
       <Text fontSize="xl" fontWeight="500" my={7}>
         Reviews
       </Text>
@@ -93,7 +93,11 @@ const ReviewSection = () => {
               Rated
             </Button>
           ) : (
-            <Button onClick={onOpen} colorScheme={"purple"}>
+            <Button
+              w={{ base: "40%", sm: "35%", md: "20%", lg: "14%" }}
+              onClick={onOpen}
+              colorScheme={"purple"}
+            >
               ⭐ Add Review
             </Button>
           )}

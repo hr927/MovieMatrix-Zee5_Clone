@@ -27,18 +27,18 @@ const TagsRecommended = ({ singleMovieData }) => {
 
   useEffect(() => {
     getdata(tagsRecommendation);
-  }, []);
+  }, [currentMovieId]);
 
   return (
     <div>
       <Box mt={1} textAlign="left">
-        <Text fontSize="xl" fontWeight="500" my={7}>
+        <Text color={"white"} fontSize="xl" fontWeight="500" my={7}>
           Recommended {singleMovieData.mediaType}s
         </Text>
 
         <Carousel showDots={false} responsive={responsive}>
           {recommendedData?.map((item, index) => (
-            <Link to={`details/${item._id}`}>
+            <Link to={`/details/${item._id}`}>
               <CardForDetails key={index} item={item} index={index} />
             </Link>
           ))}
