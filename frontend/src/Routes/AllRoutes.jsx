@@ -15,30 +15,21 @@ import AdminUsers from "../Components/Admin/AdminUsers";
 import CreateMedia from "../Components/Admin/CreateMedia";
 import UpdateMedia from "../Components/Admin/UpdateMedia";
 
-
 export default function AllRoutes() {
   return (
-
     <Routes>
       <Route path="/" element={<Home />}></Route>
-      <Route path="/tvshows" element={<TVShows/>}></Route>
-      <Route path="/movies" element={<Movies/>}></Route>
-      <Route path="/details/:id" element={<SingleMovie/>}></Route>
+      <Route path="/tvshows" element={<TVShows />}></Route>
+      <Route path="/movies" element={<Movies />}></Route>
+      <Route path="/details/:id" element={<SingleMovie />}></Route>
       <Route path="/admin" element={<Admin />}></Route>
       <Route path="/admin/createmedia" element={<CreateMedia />}></Route>
       <Route path="/admin/users" element={<AdminUsers />}></Route>
       <Route path="/admin/media" element={<AdminMedia />}></Route>
       <Route path="/admin/updatemedia/:id" element={<UpdateMedia />}></Route>
+      <Route path="/sighup" element={<Sighup></Sighup>} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/admin" element={<Admin />}></Route>
     </Routes>
-
-    <div>
-      <Routes>
-        <Route path="/sighup" element={<Sighup></Sighup>} />
-        <Route path="/login" element={<Login />} />
-         <Route path="/admin" element={<Admin />}></Route>
-      </Routes>
-    </div>
-
   );
 }
-
