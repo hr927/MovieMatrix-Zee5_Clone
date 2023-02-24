@@ -8,11 +8,16 @@ import Recommended from "../Components/SingleMovieComps/Recommended";
 import Cast from "../Components/SingleMovieComps/Cast";
 import { useParams } from "react-router-dom";
 import LoadingComp from "../Components/SingleMovieComps/LoadingComp";
+import TagsRecommended from "../Components/SingleMovieComps/TagsRecommendation";
+import ReviewSection from "./../Components/SingleMovieComps/ReviewSection";
+import Footer from "../Components/Footer/Footer";
+import UserNavabr from "./../Components/UserNavbar/UserNavbar";
 
 const SingleMovie = () => {
+  const params = useParams();
+  const id = params.id;
   const [singleMovieData, setSingleMovieData] = useState([]);
   const [loader, setLoader] = useState(true);
-  const params = useParams();
 
   function getData(id) {
     axios.get(`http://localhost:8080/media/details/${id}`).then((res) => {
@@ -22,27 +27,33 @@ const SingleMovie = () => {
   }
 
   useEffect(() => {
-    // const id = params.id;
-    const id = "63f4cb53d9c7f36e3760a9d2";
+    // const id = "63f4cb53d9c7f36e3760a9d2";
+
     getData(id);
-  }, []);
+  }, [id]);
 
   return (
-    <Stack
-      p={{ base: "0px 10px 0px 10px", md: "0px 10px 0px 30px" }}
-      className="entireBody"
-    >
-      {loader ? (
-        <LoadingComp />
-      ) : (
-        <>
-          <Trailer singleMovieData={singleMovieData} />
-          <Details singleMovieData={singleMovieData} />
-          <Cast singleMovieData={singleMovieData} />
-          <Recommended singleMovieData={singleMovieData} />
-        </>
-      )}
-    </Stack>
+    <>
+      <UserNavabr />
+      <Stack
+        p={{ base: "10px 10px 0px 10px", md: "5px 10px 0px 30px" }}
+        className="entireBody"
+      >
+        {loader ? (
+          <LoadingComp />
+        ) : (
+          <>
+            <Trailer singleMovieData={singleMovieData} />
+            <Details singleMovieData={singleMovieData} />
+            <Cast singleMovieData={singleMovieData} />
+            <TagsRecommended singleMovieData={singleMovieData} />
+            <Recommended singleMovieData={singleMovieData} />
+            <ReviewSection />
+          </>
+        )}
+      </Stack>
+      <Footer />
+    </>
   );
 };
 

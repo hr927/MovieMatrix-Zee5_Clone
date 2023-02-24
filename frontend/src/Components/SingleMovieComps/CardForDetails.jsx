@@ -4,49 +4,40 @@ import {
   Flex,
   GridItem,
   Image,
+  SimpleGrid,
   Text,
   VStack,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { AiOutlineShareAlt } from "react-icons/ai";
-import { Link,useNavigate } from "react-router-dom";
 import { FaCrown, FaPlay } from "react-icons/fa";
 
-function SingleCard({ item, index }) {
+function CardForDetails({ item, index }) {
   const [state, setState] = useState(false);
-  const navigate = useNavigate();
 
   return (
     <GridItem
-      w={"200px"}
+      w={{ base: "150px", md: "200px" }}
+      h={{ base: "250px", md: "auto" }}
       key={index}
       cursor={"pointer"}
       position={"relative"}
       borderRadius={"lg"}
       onMouseEnter={() => setState(true)}
       onMouseLeave={() => setState(false)}
-      paddingBottom="20px"
-    //   _hover={{
-        
-    //     transform: "scale(1)"
-    //   }}
+      //   paddingBottom="20px"
+      _hover={{
+        transform: "scale(1)",
+      }}
     >
-      <Link to={`../details/${item._id}`}>
       <Box>
-        <Image src={item.poster} alt={item.title} borderRadius="lg" h="300px" w="100%" />
-        {
-          <Box
-            p={1}
-            pos={"absolute"}
-            top={3}
-            left={3}
-            bg={"whitesmoke"}
-            color={"red"}
-            borderRadius={50}
-          >
-            <FaCrown />
-          </Box>
-        }
+        <Image
+          src={item.poster}
+          alt={item.title}
+          borderRadius="lg"
+          h="300px"
+          w="100%"
+        />
       </Box>
       {state && (
         <Flex
@@ -65,7 +56,7 @@ function SingleCard({ item, index }) {
           _hover={{
             color: "rgb(47, 47, 47)",
             bg: "whitesmoke",
-            // transform: "scale(2.05)"
+            // transform: "scale(2.05)",
           }}
         >
           <FaPlay style={{ marginLeft: "5px" }} />
@@ -83,19 +74,37 @@ function SingleCard({ item, index }) {
           border="8px solid whitesmoke"
         >
           <VStack
-            py={0}
+            pt={2}
             align={"left"}
             w={"100%"}
             bg={"whitesmoke"}
             color={"gray"}
             wrap={"wrap"}
             fontSize={"sm"}
+            lineHeight="13px"
           >
-            <Text ml={2} color={"gray"} fontSize={"sm"} fontWeight="600">
+            <Text ml={2} color={"gray"} fontSize={"12"} fontWeight="500">
               ● {item.title}
             </Text>
+            <Text pl={2} color={"gray"} fontSize={"11px"} fontWeight="500">
+              ● {item.runtime}
+            </Text>
+            <SimpleGrid columns={{ base: 2, md: 3 }} pl={2}>
+              {item.genre.map((el) => {
+                return (
+                  <Text
+                    key={el}
+                    color={"gray"}
+                    fontSize={"11px"}
+                    fontWeight="500"
+                  >
+                    {el}
+                  </Text>
+                );
+              })}
+            </SimpleGrid>
             <Flex alignItems={"center"} gap={2}>
-              <Button size="xs" colorScheme="black" variant="outline" ml={2} onClick={()=>navigate(`../details/${item._id}`)}>
+              <Button size="xs" colorScheme="black" variant="outline" ml={2}>
                 Watch
               </Button>
               <Flex
@@ -104,16 +113,15 @@ function SingleCard({ item, index }) {
                 fontSize={"md"}
                 fontWeight="600"
               >
-                <AiOutlineShareAlt size={26}></AiOutlineShareAlt>
+                <AiOutlineShareAlt size={18}></AiOutlineShareAlt>
                 Share
               </Flex>
             </Flex>
           </VStack>
         </VStack>
       )}
-      </Link>
     </GridItem>
   );
 }
 
-export default SingleCard;
+export default CardForDetails;

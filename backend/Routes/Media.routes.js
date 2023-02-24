@@ -14,6 +14,19 @@ mediaRouter.get("/", async (req, res) => {
     res.send({ msg: "Something went wrong", error: err.message });
   }
 });
+
+mediaRouter.get("/adminmedia", async (req, res) => {
+  const query = req.query;
+  const limit = 10;
+  const skip = (query.page - 1) * limit;
+  try {
+    const media = await MediaModel.find(query).skip(skip).limit(limit);
+    console.log(media);
+    res.send(media);
+  } catch (err) {
+    res.send({ msg: "Something went wrong", error: err.message });
+  }
+});
 mediaRouter.get("/details/:id", async (req, res) => {
   const mediaID = req.params.id;
   try {

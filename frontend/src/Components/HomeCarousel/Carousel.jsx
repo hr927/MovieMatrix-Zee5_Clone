@@ -7,12 +7,16 @@ import {
   Heading,
   Text,
   Container,
+  Button,
 } from "@chakra-ui/react";
 // Here we have used react-icons package for the icons
 import { BiLeftArrowAlt, BiRightArrowAlt } from "react-icons/bi";
 // And react-slick as our Carousel Lib
 import Slider from "react-slick";
+import { Link,useNavigate } from "react-router-dom";
+
 import { getdata } from "../Home_mid_Section/api";
+import CarouselCard from "./CarouselCard";
 
 // Settings for the slider
 const settings = {
@@ -32,6 +36,7 @@ export default function CaptionCarousel() {
   // change the state
   const [slider, setSlider] = useState(null);
   const [trending, settrending] = useState(null);
+  const navigate = useNavigate();
 
   // These are the breakpoints which changes the position of the
   // buttons as the screen size changes
@@ -97,31 +102,10 @@ export default function CaptionCarousel() {
       </IconButton>
       {/* Slider */}
       <Slider {...settings} ref={(slider) => setSlider(slider)}>
-        {trending?.map((card) => (
-          <Box
-            key={card._id}
-            height={"6xl"}
-            position="relative"
-            backgroundPosition="center"
-            backgroundRepeat="no-repeat"
-            backgroundSize="cover"
-            backgroundImage={`url(${card.poster})`}
-          >
-            <Container size="container.lg" height="600px" position="relative">
-              <Stack
-                spacing={6}
-                w={"full"}
-                maxW={"lg"}
-                position="absolute"
-                top="50%"
-                transform="translate(0, -50%)"
-              >
-                <Heading fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }}>
-                  {card.title}
-                </Heading>
-              </Stack>
-            </Container>
-          </Box>
+        {trending?.map((card,i) => (
+        //  <CarouselCard poster={card.poster} id={card._id} title={card.title}/>
+         <CarouselCard item={card} index={i}/>
+
         ))}
       </Slider>
     </Box>
