@@ -6,12 +6,13 @@ import React from "react";
 import { getTagsMediaTypedata } from "../Home_mid_Section/api";
 import { Link, useNavigate } from "react-router-dom";
 import "../../Styles/body.css";
+import { Box, Button, Container, Stack, Text } from "@chakra-ui/react";
 export default function TVSeriesCarousel() {
   const navigate = useNavigate();
 
   const [trending, settrending] = React.useState(null);
   React.useEffect(() => {
-    getTagsMediaTypedata("Trending","Show")
+    getTagsMediaTypedata("Trending", "Show")
       .then((res) => {
         settrending(res.data);
         console.log(res);
@@ -30,24 +31,54 @@ export default function TVSeriesCarousel() {
     arrows: true,
   };
   return (
-    <div className="maxHight" >
+    <div>
       <Slider {...settings}>
         {trending?.map((item, index) => (
-          <div >
-            <img
-            className="imghight"
-            onClick={() => navigate(`../details/${item._id}`)}
-            src={item.poster}
-            alt={item.title}
-          />
-          </div>
-          
+          <Box
+            key={index}
+            // height={"xl"}
+            position="relative"
+            backgroundImage={`url(${item.poster})`}
+            backgroundSize="75% 100%"
+            backgroundRepeat="no-repeat"
+            backgroundPosition="center"
+            w="100%"
+            h="400px"
+          >
+            {/* <Box position="absolute" top={0} left={0} bottom={0} right={0} bg="rgba(255, 255, 255, 0.5)" filter="blur(10px)" zIndex="-1"></Box> */}
+            <Container height="600px" position="relative">
+              <Stack
+                spacing={6}
+                w={"full"}
+                maxW={"lg"}
+                position="absolute"
+                top="50%"
+                transform="translate(0, -50%)"
+              >
+                <Button color={"black"}>Watch</Button>
+
+                <Text fontSize={{ base: "2xl", md: "3xl", lg: "3xl" }}>
+                  {item.title}
+                </Text>
+                <Link to={`../details/${item._id}`}>
+                  <Button color="black">Watch</Button>
+                </Link>
+              </Stack>
+            </Container>
+            {/* <img
+              style={{
+                width: "80%",
+                display: "block",
+                overflow: "hidden",
+                margin: "auto",
+              }}
+              onClick={() => navigate(`../details/${item._id}`)}
+              src={item.poster}
+              alt={item.title}
+            /> */}
+          </Box>
         ))}
       </Slider>
     </div>
   );
 }
-
-
-
-
