@@ -13,6 +13,7 @@ import {
   IconButton,
   Center,
   useToast,
+  Text,
 } from "@chakra-ui/react";
 import { SmallCloseIcon } from "@chakra-ui/icons";
 import { useSelector } from "react-redux";
@@ -109,8 +110,18 @@ export default function ProfilePage() {
           <FormLabel>User Icon</FormLabel>
           <Stack direction={["column", "row"]} spacing={6}>
             <Center>
-              <Avatar size="xl" src={userData.img} alt="Uploaded Image">
-                <AvatarBadge
+              {/* {image ?
+              <Avatar size="xl" src={image} alt="Uploaded Image"> : */}
+              <Avatar
+                size="xl"
+                src={
+                  "https://marketplace.canva.com/EAFEits4-uw/1/0/1600w/canva-boy-cartoon-gamer-animated-twitch-profile-photo-oEqs2yqaL8s.jpg"
+                }
+                alt="Uploaded Image"
+              >
+                {/* } */}
+
+                {/* <AvatarBadge
                   as={IconButton}
                   size="sm"
                   rounded="full"
@@ -118,11 +129,12 @@ export default function ProfilePage() {
                   colorScheme="red"
                   aria-label="remove Image"
                   icon={<SmallCloseIcon />}
-                />
+                /> */}
               </Avatar>
             </Center>
             <Center w="full">
-              <Input type="file" name="Uploade" onChange={handleImageUpload} />
+              {/* <Input type="file" name="Uploade" onChange={handleImageUpload} /> */}
+              <Button w="full">{userData.name}</Button>
             </Center>
           </Stack>
         </FormControl>

@@ -3,7 +3,6 @@ import {
   Flex,
   Avatar,
   HStack,
-  Link,
   IconButton,
   Button,
   Menu,
@@ -19,13 +18,17 @@ import {
   InputGroup,
   InputLeftElement,
   Spacer,
+  Tooltip,
 } from "@chakra-ui/react";
 import "./UserNavbar.css";
 
 import { FaBars, FaCrown, FaRegUser } from "react-icons/fa";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
-import { NavLink, Link as RouterLink } from "react-router-dom";
+import { NavLink, Link as RouterLink, Link } from "react-router-dom";
 import logo from "../../Images/logo.png";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { logoutFun } from "../../Redux/Authentication/action";
 const Links = [
   { path: "/", text: "Home" },
   { path: "/tvshows", text: "TV Shows" },
@@ -54,6 +57,22 @@ export default function UserNavabr() {
     textDecoration: "none",
     borderBottom: "2px solid white",
   };
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [profile, setProfile] = useState(false);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setIsAuthenticated(true);
+      setProfile(true);
+    }
+  }, []);
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    dispatch(logoutFun());
+  };
+
   return (
     <>
       <Box
@@ -106,8 +125,8 @@ export default function UserNavabr() {
           </HStack>
 
           <Flex alignItems={"center"}>
-            <Link to="/login">
-              <Button
+            {/* <Link to="/login"> */}
+            {/* <Button
                 _hover={{
                   color: "#0f0617",
                   bg: "white",
@@ -118,7 +137,100 @@ export default function UserNavabr() {
               >
                 LOGIN
               </Button>
-            </Link>
+              <Box>
+                <Button>UserLogin</Button>
+                <Button>AdminLogin</Button>
+
+              </Box> */}
+            <Menu isLazy>
+              {isAuthenticated ? (
+                <MenuButton
+                  as={Button}
+                  _hover={{
+                    textDecoration: "none",
+                  }}
+                  color="white"
+                  variant="outline"
+                  text-decoration="none"
+                  onClick={handleLogout}
+                  onMouseEnter={() => setProfile(true)}
+                  onMouseLeave={() => setProfile(true)}
+                >
+                  Logout
+                </MenuButton>
+              ) : (
+                <MenuButton
+                  as={Button}
+                  _hover={{
+                    textDecoration: "none",
+                  }}
+                  color="white"
+                  variant="outline"
+                  text-decoration="none"
+                >
+                  Login
+                </MenuButton>
+              )}
+
+              {!isAuthenticated ? (
+                <MenuList>
+                  {/* MenuItems are not rendered unless Menu is open */}
+
+                  <Link to="/login">
+                    <MenuItem
+                      _hover={{
+                        color: "white",
+                        bg: "#8230c6",
+                        textDecoration: "none",
+                      }}
+                      color="Black"
+                      variant="outline"
+                    >
+                      User Login{" "}
+                    </MenuItem>
+                  </Link>
+                  <MenuItem
+                    _hover={{
+                      color: "white",
+                      bg: "#8230c6",
+                      textDecoration: "none",
+                    }}
+                    color="black"
+                    variant="outline"
+                  >
+                    Admin Login
+                  </MenuItem>
+                </MenuList>
+              ) : <MenuList>
+              {/* MenuItems are not rendered unless Menu is open */}
+
+              <Link to="/login">
+                <MenuItem
+                  _hover={{
+                    color: "white",
+                    bg: "#8230c6",
+                    textDecoration: "none",
+                  }}
+                  color="Black"
+                  variant="outline"
+                >
+                  Profile {" "}
+                </MenuItem>
+              </Link>
+              <MenuItem
+                _hover={{
+                  color: "white",
+                  bg: "#8230c6",
+                  textDecoration: "none",
+                }}
+                color="black"
+                variant="outline"
+              >
+                logout
+              </MenuItem>
+            </MenuList>}
+            </Menu>
+            {/* </Link> */}
           </Flex>
         </Flex>
 
@@ -148,8 +260,6 @@ export default function UserNavabr() {
           </Box>
         ) : null}
       </Box>
-
-      
     </>
   );
 }

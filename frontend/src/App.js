@@ -17,6 +17,7 @@ function App() {
     <div className="App">
       <AllRoutes />
       {/* <Link to="profile-page">Profile Page</Link> */}
+      <Link to="profile">Profile</Link>
     </div>
   );
 }
