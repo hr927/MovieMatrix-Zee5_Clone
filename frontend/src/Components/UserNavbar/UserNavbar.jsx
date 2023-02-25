@@ -19,8 +19,6 @@ import {
   InputLeftElement,
   Spacer,
 
-  Tooltip
-
   Tooltip,
 
 } from "@chakra-ui/react";
@@ -74,10 +72,7 @@ export default function UserNavabr() {
     setIsLoggedIn(true);
   };
 
-  // const handleLogout = () => {
-  //   setIsLoggedIn(false);
-  //   setUser(null);
-  // };
+ 
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -152,36 +147,9 @@ export default function UserNavabr() {
           <Flex alignItems={"center"}>
 
             <Link to="/login">
-              {/* <Button
-
-            {/* <Link to="/login"> */}
-            {/* <Button
-
-                _hover={{
-                  color: "#0f0617",
-                  bg: "white",
-                  textDecoration: "none",
-                }}
-                color="white"
-                variant="outline"
-              >
-                LOGIN
-              </Button>
-              <Box>
-                <Button>UserLogin</Button>
-                <Button>AdminLogin</Button>
-
-              </Box> */}
 
               <Menu isLazy>
-  <MenuButton  as={Button} _hover={{
-                  
-                  textDecoration: "none",
-                }}
-                color="white"
-                variant="outline"
-                text-decoration= "none"
-              >Login</MenuButton>
+  
   <MenuList>
     {/* MenuItems are not rendered unless Menu is open */}
     <MenuItem _hover={{
