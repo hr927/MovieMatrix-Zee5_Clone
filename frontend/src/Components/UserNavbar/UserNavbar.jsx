@@ -31,6 +31,8 @@ const Links = [
   { path: "/", text: "Home" },
   { path: "/tvshows", text: "TV Shows" },
   { path: "/movies", text: "Movies" },
+  { path: "/myreviews", text: "My Reviews" },
+  { path: "/watchlist", text: "Watchlist" },
 ];
 
 // const NavLink = () => (
@@ -92,6 +94,7 @@ export default function UserNavabr() {
                   {link.text}
                 </NavLink>
               ))}
+
               <Spacer />
               {isOpen ? null : (
                 <Input
@@ -103,6 +106,7 @@ export default function UserNavabr() {
                   placeholder="🔍 Search for Movies, Shows, Channels etc. "
                 />
               )}
+              
             </HStack>
           </HStack>
 
