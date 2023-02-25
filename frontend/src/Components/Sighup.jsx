@@ -197,9 +197,12 @@ export default function Sighup() {
               <Button
                 // loadingText="Submitting"
                 size="lg"
-                bg={"rgb(193 152 227)"}
+                bg={"#f7cb93"}
                 color={"white"}
                 onClick={handleSubmit}
+                _hover={{
+                  bg:"rgb(193 152 227)"
+                }}
               >
                 Sign up
               </Button>
