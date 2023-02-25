@@ -19,7 +19,8 @@ import AdminUsers from "../Components/Admin/AdminUsers";
 import CreateMedia from "../Components/Admin/CreateMedia";
 import UpdateMedia from "../Components/Admin/UpdateMedia";
 import MyReviews from "../Components/MyReviews/MyReviews";
-import ProfilePage2 from "./ProfilePage2";
+// import ProfilePage2 from "./ProfilePage2";
+
 
 
 export default function AllRoutes() {
@@ -32,7 +33,7 @@ export default function AllRoutes() {
         <Route path="/admin-login" element={<AdminLogin />} />
         
         <Route path="/profile-page" element={<ProfilePage />} />
-        <Route path="/profile" element={<ProfilePage2/>} />
+
         
       <Route path="/" element={<Home />}></Route>
       <Route path="/tvshows" element={<TVShows />}></Route>

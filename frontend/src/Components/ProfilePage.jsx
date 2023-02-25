@@ -32,7 +32,7 @@ export default function ProfilePage() {
     name: user?.name || "",
     email: user?.email || "",
     bio: user?.bio || "",
-    skills: user?.skills || [],
+    preference: user?.preference || [],
     img: user?.img || null,
   });
 
@@ -65,7 +65,7 @@ export default function ProfilePage() {
         name: userData.name,
         email: userData.email,
         bio: userData.bio,
-        skills: userData.skills,
+        preference: userData.preference,
         img: image,
       };
       const res = await axios.put(
@@ -169,31 +169,33 @@ export default function ProfilePage() {
             onChange={handleChange}
           />
         </FormControl>
-        <FormControl id="skills">
+        <FormControl id="preference">
           <FormLabel>Preference</FormLabel>
           <Input
             type="text"
-            name="skills"
-            value={userData.skills && userData.skills.join(", ")}
+            name="preference"
+            value={userData.preference && userData.preference.join(", ")}
             onChange={(e) =>
               setUserData({
                 ...userData,
-                skills: e.target.value.split(", "),
+                preference: e.target.value.split(", "),
               })
             }
           />
         </FormControl>
         <Stack spacing={6} direction={["column", "row"]}>
-          <Button
-            bg={"red.400"}
-            color={"white"}
-            w="full"
-            _hover={{
-              bg: "red.500",
-            }}
-          >
-            <Link to={"/"}> Cancel</Link>
-          </Button>
+          <Link to={"/"}>
+            <Button
+              bg={"red.400"}
+              color={"white"}
+              w="full"
+              _hover={{
+                bg: "red.500",
+              }}
+            >
+              Cancel
+            </Button>
+          </Link>
           <Button
             bg={"#f7cb93"}
             color={"white"}

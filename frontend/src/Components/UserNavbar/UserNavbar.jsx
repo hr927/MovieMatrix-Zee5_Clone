@@ -60,16 +60,33 @@ export default function UserNavabr() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [profile, setProfile] = useState(false);
   const dispatch = useDispatch();
+  // const [isHovered, setIsHovered] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState(null);
+
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+  };
+
+  // const handleLogout = () => {
+  //   setIsLoggedIn(false);
+  //   setUser(null);
+  // };
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
       setIsAuthenticated(true);
+      setIsLoggedIn(true);
+
       setProfile(true);
+      setUser(JSON.parse(localStorage.getItem("userDetails")));
     }
   }, []);
   const handleLogout = () => {
     setIsAuthenticated(false);
+    setIsLoggedIn(false);
+
     dispatch(logoutFun());
   };
 
@@ -143,92 +160,45 @@ export default function UserNavabr() {
 
               </Box> */}
             <Menu isLazy>
-              {isAuthenticated ? (
-                <MenuButton
-                  as={Button}
-                  _hover={{
-                    textDecoration: "none",
-                  }}
-                  color="white"
-                  variant="outline"
-                  text-decoration="none"
-                  onClick={handleLogout}
-                  onMouseEnter={() => setProfile(true)}
-                  onMouseLeave={() => setProfile(true)}
-                >
-                  Logout
-                </MenuButton>
+              {isLoggedIn ? (
+                <Flex alignItems="center">
+                  <Menu>
+                    <MenuButton
+                      as={IconButton}
+                      icon={
+                        <Avatar
+                          size="sm"
+                          src={
+                            "https://marketplace.canva.com/EAFEits4-uw/1/0/1600w/canva-boy-cartoon-gamer-animated-twitch-profile-photo-oEqs2yqaL8s.jpg"
+                          }
+                        />
+                      }
+                      variant="ghost"
+                      aria-label="User menu"
+                      _hover={{ background: "transparent" }}
+                      _active={{ background: "transparent" }}
+                    />
+                    <MenuList bg={"#0f0617"}>
+                      <Link to={"/profile-page"}>
+                        <MenuItem bg={"#0f0617"} color={"white"} _hover={{bg:"#a77b4d"}}>Profile</MenuItem>
+                      </Link>
+                      <MenuItem onClick={handleLogout} bg={"#0f0617"} color={"white"} _hover={{bg:"#a77b4d"}} >Logout</MenuItem>
+                    </MenuList>
+                  </Menu>
+                </Flex>
               ) : (
-                <MenuButton
-                  as={Button}
-                  _hover={{
-                    textDecoration: "none",
-                  }}
-                  color="white"
-                  variant="outline"
-                  text-decoration="none"
-                >
-                  Login
-                </MenuButton>
-              )}
-
-              {!isAuthenticated ? (
-                <MenuList>
-                  {/* MenuItems are not rendered unless Menu is open */}
-
-                  <Link to="/login">
-                    <MenuItem
-                      _hover={{
-                        color: "white",
-                        bg: "#8230c6",
-                        textDecoration: "none",
-                      }}
-                      color="Black"
-                      variant="outline"
-                    >
-                      User Login{" "}
-                    </MenuItem>
-                  </Link>
-                  <MenuItem
-                    _hover={{
-                      color: "white",
-                      bg: "#8230c6",
-                      textDecoration: "none",
-                    }}
-                    color="black"
-                    variant="outline"
-                  >
-                    Admin Login
-                  </MenuItem>
-                </MenuList>
-              ) : <MenuList>
-              {/* MenuItems are not rendered unless Menu is open */}
-
-              <Link to="/login">
-                <MenuItem
-                  _hover={{
-                    color: "white",
-                    bg: "#8230c6",
-                    textDecoration: "none",
-                  }}
-                  color="Black"
-                  variant="outline"
-                >
-                  Profile {" "}
-                </MenuItem>
-              </Link>
-              <MenuItem
-                _hover={{
-                  color: "white",
-                  bg: "#8230c6",
+                <Link to={"/login"}>
+                  <Button  onClick={handleLogin} _hover={{
+                  color: "#0f0617",
+                  bg: "white",
                   textDecoration: "none",
                 }}
-                color="black"
-                variant="outline"
-              >
-                logout
-              </MenuItem>
-            </MenuList>}
+                color="white"
+                variant="outline">
+                    Login
+                  </Button>
+                </Link>
+              )}
             </Menu>
             {/* </Link> */}
           </Flex>
