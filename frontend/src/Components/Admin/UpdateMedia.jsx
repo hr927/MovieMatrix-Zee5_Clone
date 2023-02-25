@@ -51,11 +51,10 @@ const UpdateMedia = () => {
   const getMedia = async (id) => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/media/details/${id}`,
+        `https://bronze-salamander-cuff.cyclic.app/media/details/${id}`,
         {
           headers: {
-            Authorization:
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2M2Y0OTYwNDJjOWRhZTNmODNlNWZmZGYiLCJpYXQiOjE2NzY5NzQxODB9.8LlUUFyybQj-moWisIi1o2fLGLxAAeP5TGFB0sLYxeQ",
+            Authorization: JSON.parse(localStorage.getItem("Admin_token")),
           },
         }
       );
@@ -83,12 +82,11 @@ const UpdateMedia = () => {
   const postMedia = async (payload) => {
     const headers = {
       "Content-type": "application/json",
-      Authorization:
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2M2Y0OTYwNDJjOWRhZTNmODNlNWZmZGYiLCJpYXQiOjE2NzY5NzQxODB9.8LlUUFyybQj-moWisIi1o2fLGLxAAeP5TGFB0sLYxeQ",
+      Authorization: JSON.parse(localStorage.getItem("Admin_token")),
     };
     try {
       const response = await axios.patch(
-        `http://localhost:8080/media/update/${id}`,
+        `https://bronze-salamander-cuff.cyclic.app/media/update/${id}`,
         payload,
         {
           headers: headers,

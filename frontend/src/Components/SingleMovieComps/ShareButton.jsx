@@ -15,12 +15,11 @@ const ShareButton = ({ media }) => {
     };
     const headers = {
       "Content-type": "application/json",
-      Authorization:
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2M2Y4OTI3M2U1NDk5NDczMDI3Y2MyMjQiLCJpYXQiOjE2NzcyNDEyOTR9.7WKJKtw8c8ASpMptbfMo1PgXQqiQUdzLJQ_5MPbX0do",
+      Authorization: JSON.parse(localStorage.getItem("token")),
     };
     try {
       const response = await axios.post(
-        "http://localhost:8080/watchList/add",
+        "https://bronze-salamander-cuff.cyclic.app/watchList/add",
         payload,
         {
           headers: headers,

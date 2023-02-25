@@ -21,11 +21,10 @@ const AdminMedia = () => {
   const getMedia = async () => {
     try {
       const response = await axios.get(
-        `https://uninterested-gray-spacesuit.cyclic.app/media`,
+        `https://bronze-salamander-cuff.cyclic.app/media`,
         {
           headers: {
-            Authorization:
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2M2Y0OTYwNDJjOWRhZTNmODNlNWZmZGYiLCJpYXQiOjE2NzY5NzQxODB9.8LlUUFyybQj-moWisIi1o2fLGLxAAeP5TGFB0sLYxeQ",
+            Authorization: JSON.parse(localStorage.getItem("Admin_token")),
           },
         }
       );
@@ -43,11 +42,10 @@ const AdminMedia = () => {
     console.log(id);
     try {
       const response = await axios.delete(
-        `http://localhost:8080/media/delete/${id}`,
+        `https://bronze-salamander-cuff.cyclic.app/delete/${id}`,
         {
           headers: {
-            Authorization:
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2M2Y0OTYwNDJjOWRhZTNmODNlNWZmZGYiLCJpYXQiOjE2NzY5NzQxODB9.8LlUUFyybQj-moWisIi1o2fLGLxAAeP5TGFB0sLYxeQ",
+            Authorization: JSON.parse(localStorage.getItem("Admin_token")),
           },
         }
       );
@@ -75,11 +73,10 @@ const AdminMedia = () => {
     try {
       console.log("called");
       const response = await axios.get(
-        `http://localhost:8080/media?mediaType=${query}`,
+        `https://bronze-salamander-cuff.cyclic.app/media?mediaType=${query}`,
         {
           headers: {
-            Authorization:
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2M2Y0OTYwNDJjOWRhZTNmODNlNWZmZGYiLCJpYXQiOjE2NzY5NzQxODB9.8LlUUFyybQj-moWisIi1o2fLGLxAAeP5TGFB0sLYxeQ",
+            Authorization: JSON.parse(localStorage.getItem("Admin_token")),
           },
         }
       );

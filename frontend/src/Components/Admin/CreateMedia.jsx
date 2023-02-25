@@ -49,12 +49,11 @@ const CreateMedia = () => {
   const postMedia = async (payload) => {
     const headers = {
       "Content-type": "application/json",
-      Authorization:
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2M2Y0OTYwNDJjOWRhZTNmODNlNWZmZGYiLCJpYXQiOjE2NzY5NzQxODB9.8LlUUFyybQj-moWisIi1o2fLGLxAAeP5TGFB0sLYxeQ",
+      Authorization: JSON.parse(localStorage.getItem("Admin_token")),
     };
     try {
       const response = await axios.post(
-        "http://localhost:8080/media/create",
+        "https://bronze-salamander-cuff.cyclic.app/media/create",
         payload,
         {
           headers: headers,
