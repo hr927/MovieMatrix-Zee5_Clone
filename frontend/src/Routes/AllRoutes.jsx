@@ -24,19 +24,18 @@ import Watchlist from "../Components/WatchList";
 
 // import ProfilePage2 from "./ProfilePage2";
 
-
 export default function AllRoutes() {
   return (
-      <Routes>
+    <Routes>
       <Route path="/" element={<Home />}></Route>
-        <Route path="/profile-page" element={<ProfilePage />} />
+      <Route path="/profile-page" element={<ProfilePage />} />
 
-        <Route path="/sighup" element={<Sighup></Sighup>} />
-        <Route path="/forget-password" element={<ForgetPassword />} />
-        <Route path="/reset-password" element={<ResetPassword />} />
+      <Route path="/sighup" element={<Sighup></Sighup>} />
+      <Route path="/forget-password" element={<ForgetPassword />} />
+      <Route path="/reset-password" element={<ResetPassword />} />
 
-        <Route path="/admin-login" element={<AdminLogin />} />
-      
+      <Route path="/admin-login" element={<AdminLogin />} />
+
       <Route path="/tvshows" element={<TVShows />}></Route>
       <Route path="/movies" element={<Movies />}></Route>
       <Route path="/details/:id" element={<SingleMovie />}></Route>
@@ -48,11 +47,32 @@ export default function AllRoutes() {
       <Route path="/sighup" element={<Sighup></Sighup>} />
 
       <Route path="/login" element={<Login />} />
-      <Route path="/watchlist" element={<PrivateRoute><Watchlist /></PrivateRoute>}></Route>
-  
-      <Route path="/admin" element={<PrivateRoute><Admin /></PrivateRoute>}></Route>
+      <Route
+        path="/watchlist"
+        element={
+          <PrivateRoute>
+            <Watchlist />
+          </PrivateRoute>
+        }
+      ></Route>
 
-      <Route path="/myreviews" element={<MyReviews />} />
-  </Routes>
+      <Route
+        path="/admin"
+        element={
+          <PrivateRoute>
+            <Admin />
+          </PrivateRoute>
+        }
+      ></Route>
+
+      <Route
+        path="/myreviews"
+        element={
+          <PrivateRoute>
+            <MyReviews />
+          </PrivateRoute>
+        }
+      />
+    </Routes>
   );
 }
