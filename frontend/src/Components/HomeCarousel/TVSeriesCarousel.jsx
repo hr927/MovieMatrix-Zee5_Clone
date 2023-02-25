@@ -61,7 +61,7 @@ export default function TVSeriesCarousel() {
                   {item.title}
                 </Text>
                 <Link to={`../details/${item._id}`}>
-                  <Button color="black">Watch</Button>
+                  <Button color="grey">Watch</Button>
                 </Link>
               </Stack>
             </Container>
