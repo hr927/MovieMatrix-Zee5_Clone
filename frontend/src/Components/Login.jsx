@@ -154,7 +154,16 @@ export default function Login() {
                 >
                   Sign in
                 </Button>
-                <Stack pt={6}>
+                <Stack pt={0}>
+                <Text align={"center"}>
+                    Login from {" "}
+                    <Link to={"/admin-login"} color={"rgb(193 152 227)"}>
+                      <span style={{ color: "rgb(193 152 227)" }}>
+                        {" "}
+                        Admin{" "}
+                      </span>
+                    </Link>
+                  </Text>
                   <Text align={"center"}>
                     New to MovieMatrix ?{" "}
                     <Link to={"/sighup"} color={"rgb(193 152 227)"}>
