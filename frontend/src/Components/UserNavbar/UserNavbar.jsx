@@ -9,23 +9,16 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
-  MenuDivider,
   useDisclosure,
-  useColorModeValue,
   Stack,
   Img,
   Input,
-  InputGroup,
-  InputLeftElement,
   Spacer,
   Text,
   VStack,
-  Heading,
-  Tooltip,
 } from "@chakra-ui/react";
 import "./UserNavbar.css";
 
-import { FaBars, FaCrown, FaRegUser } from "react-icons/fa";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import {
   NavLink,
@@ -34,38 +27,12 @@ import {
   useNavigate,
 } from "react-router-dom";
 import logo from "../../Images/logo.png";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useEffect, useMemo, useState } from "react";
 import { logoutFun } from "../../Redux/Authentication/action";
 
 import { debounce } from "lodash";
 import axios from "axios";
-const movies = [
-  {
-    id: 1,
-    title: "The Shawshank Redemption",
-    director: "Frank Darabont",
-    year: "1994",
-    synopsis:
-      "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.",
-  },
-  {
-    id: 2,
-    title: "The Godfather",
-    director: "Francis Ford Coppola",
-    year: "1972",
-    synopsis:
-      "The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.",
-  },
-  {
-    id: 3,
-    title: "The Dark Knight",
-    director: "Christopher Nolan",
-    year: "2008",
-    synopsis:
-      "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.",
-  },
-];
 
 const Links = [
   { path: "/", text: "Home" },
@@ -74,20 +41,6 @@ const Links = [
   { path: "/myreviews", text: "My Reviews" },
   { path: "/watchlist", text: "Watchlist" },
 ];
-
-// const NavLink = () => (
-//   <Link
-//     px={2}
-//     py={1}
-//     rounded={'md'}
-//     _hover={{
-//       textDecoration: 'none',
-//       bg: useColorModeValue('gray.200', 'gray.700'),
-//     }}
-//     href={'#'}>
-//     {Links.map((el)=>{return(el)})}
-//   </Link>
-// );
 
 export default function UserNavabr() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -98,49 +51,94 @@ export default function UserNavabr() {
     borderBottom: "2px solid white",
   };
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [profile, setProfile] = useState(false);
+  // const [profile, setProfile] = useState(false);
   const dispatch = useDispatch();
-  // const [isHovered, setIsHovered] = useState(false);
+
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
+  // for search state
   const [searchValue, setSearchValue] = useState("");
   const [searchResults, setSearchResults] = useState([]);
-  const [selectedMovie, setSelectedMovie] = useState(null);
-  const [movie, setMovie] = useState(null);
 
-  const [movieId, setMovieId] = useState(null);
-
-  const handleLogin = () => {
-    setIsLoggedIn(true);
-  };
-
+  // function for getting the Search data from backend
   const getdata = () => {
     axios
       .get(`http://localhost:8080/media/search?name=${searchValue}`)
       .then((res) => {
         console.log("search: ", res.data);
         setSearchResults(res.data);
-        setMovieId(res.data._id);
-        // console.log("movieId: ", movieId);
-
-        // console.log(res)
       });
   };
 
+  // display Search Data
+  let listToDisplay = searchResults;
+
+  // onChange apply on input
+  const handleInputChange = (e) => {
+    setSearchValue(e.target.value);
+  };
+
+  // Store the Search Data in Function and Call when search will happen
+  const SearchData = () => {
+    return listToDisplay.map((movie, i) => {
+      return (
+        <Link to={`/details/${movie._id}`}>
+          <Box
+            key={movie.id}
+            p={2}
+            borderWidth={1}
+            borderColor="gray.200"
+            borderRadius={4}
+            _hover={{ cursor: "pointer", bg: "gray.50", color: "black" }}
+            mt={4}
+            overflow="auto"
+            maxHeight="20rem"
+          >
+            <Text fontSize="xl" fontWeight="bold">
+              {movie.title}
+            </Text>
+            <Text>{movie.year}</Text>
+          </Box>
+        </Link>
+      );
+    });
+  };
+
+  // Filtering logic is apply on SearchResults
+  if (searchValue !== "" || searchValue.trim() ) {
+    listToDisplay = searchResults.filter((movie) => {
+      // return fruit.includes(searchValue);
+      return movie.title.toLowerCase().includes(searchValue);
+    });
+  }
+
+  // Use Debounce for searching with useMemo
+  const debouncedResults = useMemo(() => {
+    return debounce(handleInputChange, 3000);
+  }, []);
+
+  // for unmounting search functionality (it means when backspace hit the search data will vanish)
+  useEffect(() => {
+    return () => {
+      debouncedResults.cancel();
+    };
+  });
+
+  // This is for authentication using local storage token and for calling the search data first time when component render
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
       setIsAuthenticated(true);
       setIsLoggedIn(true);
 
-      setProfile(true);
       setUser(JSON.parse(localStorage.getItem("userDetails")));
     }
-
-    // getdata()
+    getdata();
   }, []);
+
+  // Logout function
   const handleLogout = () => {
     setIsAuthenticated(false);
     setIsLoggedIn(false);
@@ -149,32 +147,9 @@ export default function UserNavabr() {
     navigate("/");
   };
 
-  const handleInputChange = (event) => {
-    const value = event.target.value;
-    setSearchValue(value);
-
-    // Use debounce to reduce the number of API calls
-    debounceSearch(value);
-  };
-
-  const debounceSearch = debounce((value) => {
-    if (value) {
-      getdata();
-      const results = searchResults.filter((movie) =>
-        movie.title.toLowerCase().includes(value.toLowerCase())
-      );
-      setSearchResults(results);
-      setSelectedMovie(null);
-    } else {
-      setSearchResults([]);
-      setSelectedMovie(null);
-    }
-  }, 1000);
-
-  const handleMovieClick = (movie) => {
-    setSelectedMovie(movie);
-    setSearchValue("");
-    setSearchResults([]);
+  // Login Function
+  const handleLogin = () => {
+    setIsLoggedIn(true);
   };
 
   return (
@@ -345,70 +320,14 @@ export default function UserNavabr() {
                 placeholder="Search movies"
               />
               <VStack mt={4} align="stretch" spacing={2}>
-                {searchResults.map((movie) => (
-                  <Box
-                    key={movie.id}
-                    p={2}
-                    borderWidth={1}
-                    borderColor="gray.200"
-                    borderRadius={4}
-                    _hover={{ cursor: "pointer", bg: "gray.50" }}
-                    onClick={() => handleMovieClick(movie)}
-                  >
-                    <Text fontSize="xl" fontWeight="bold">
-                      {movie.title}
-                    </Text>
-                    <Text>{movie.year}</Text>
-                  </Box>
-                ))}
+        {searchValue.trim().length>0 && SearchData()}
               </VStack>
-              {searchResults.map((movie) => (
-                <Link to={`/details/${movie._id}`}>
-                  <Box
-                    key={movie.id}
-                    p={2}
-                    borderWidth={1}
-                    borderColor="gray.200"
-                    borderRadius={4}
-                    _hover={{ cursor: "pointer", bg: "gray.50" }}
-                    onClick={() => handleMovieClick(movie)}
-                    className="mx-[%]"
-                  >
-                    <Text fontSize="xl" fontWeight="bold">
-                      {movie.title}
-                    </Text>
-                    <Text>{movie.year}</Text>
-                  </Box>
-                </Link>
-              ))}
+           
             </Box>
           </Box>
         ) : null}
+        {searchValue.trim().length>0 && SearchData()}
       </Box>
-
-      {searchResults.slice(0, 4).map((movie) => (
-        <Link to={`/details/${movie._id}`}>
-          <Box
-            key={movie.id}
-            p={2}
-            borderWidth={1}
-            borderColor="gray.200"
-            borderRadius={4}
-            _hover={{ cursor: "pointer", bg: "gray.50", color: "black" }}
-            mt={4}
-            overflow="auto"
-            maxHeight="20rem"
-            onClick={() => handleMovieClick(movie)}
-            // className="mx-[50%]"
-            // style={{    margin:"0px 20% 0px 44%",display:"hidden"}}
-          >
-            <Text fontSize="xl" fontWeight="bold">
-              {movie.title}
-            </Text>
-            <Text>{movie.year}</Text>
-          </Box>
-        </Link>
-      ))}
     </>
   );
 }
