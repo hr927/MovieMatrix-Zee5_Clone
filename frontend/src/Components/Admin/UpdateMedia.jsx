@@ -13,6 +13,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useNavigate, useParams } from "react-router-dom";
+import AdminNav from "./AdminNav";
 
 const UpdateMedia = () => {
   const { id } = useParams();
@@ -210,7 +211,10 @@ const UpdateMedia = () => {
 
   return (
     <>
-      <div style={{ padding: "10px", textAlign: "center" }}>
+      <AdminNav />
+      <div
+        style={{ padding: "10px", textAlign: "center", paddingTop: "100px" }}
+      >
         <Heading>Update Media</Heading>
         <Box
           w={["100%", "50%"]}

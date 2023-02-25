@@ -11,6 +11,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import MediaCard from "./MediaCard";
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
+import AdminNav from "./AdminNav";
 
 const AdminMedia = () => {
   const [media, setMedia] = useState([]);
@@ -19,12 +20,15 @@ const AdminMedia = () => {
 
   const getMedia = async () => {
     try {
-      const response = await axios.get(`http://localhost:8080/media`, {
-        headers: {
-          Authorization:
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2M2Y0OTYwNDJjOWRhZTNmODNlNWZmZGYiLCJpYXQiOjE2NzY5NzQxODB9.8LlUUFyybQj-moWisIi1o2fLGLxAAeP5TGFB0sLYxeQ",
-        },
-      });
+      const response = await axios.get(
+        `https://uninterested-gray-spacesuit.cyclic.app/media`,
+        {
+          headers: {
+            Authorization:
+              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2M2Y0OTYwNDJjOWRhZTNmODNlNWZmZGYiLCJpYXQiOjE2NzY5NzQxODB9.8LlUUFyybQj-moWisIi1o2fLGLxAAeP5TGFB0sLYxeQ",
+          },
+        }
+      );
       console.log(response.data);
       setMedia(response.data);
     } catch (err) {
@@ -88,11 +92,14 @@ const AdminMedia = () => {
 
   return (
     <>
+      <AdminNav />
       <div
         style={{
           display: "flex",
           justifyContent: "space-between",
           padding: "10px",
+          paddingTop: "100px",
+          textAlign: "center",
         }}
       >
         <Heading>Media Control</Heading>

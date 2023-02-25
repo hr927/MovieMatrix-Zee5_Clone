@@ -21,6 +21,7 @@
     "react-scripts": "5.0.1",
     "react-slick": "^0.29.0",
     "react-star-review": "^1.2.0",
+    "recharts": "^2.4.3",
     "redux-thunk": "^2.4.2",
     "slick-carousel": "^1.8.1",
     "web-vitals": "^2.1.4"

@@ -40,7 +40,7 @@ const Details = ({ singleMovieData }) => {
         </SimpleGrid>
       </Flex>
 
-      <ShareButton />
+      <ShareButton media={singleMovieData} />
       <Flex align={"center"} gap="10px">
         <Text className="contextType">Audio Languages:</Text>
         <Text className="hoverEffect">{singleMovieData.language}</Text>
