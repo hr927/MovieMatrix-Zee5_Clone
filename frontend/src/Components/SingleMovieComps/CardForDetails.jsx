@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { AiOutlineShareAlt } from "react-icons/ai";
-import { FaCrown, FaPlay } from "react-icons/fa";
+import { FaPlay } from "react-icons/fa";
 
 function CardForDetails({ item, index }) {
   const [state, setState] = useState(false);
@@ -25,7 +25,6 @@ function CardForDetails({ item, index }) {
       borderRadius={"lg"}
       onMouseEnter={() => setState(true)}
       onMouseLeave={() => setState(false)}
-      //   paddingBottom="20px"
       _hover={{
         transform: "scale(1)",
       }}

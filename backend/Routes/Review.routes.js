@@ -15,6 +15,17 @@ reviewRouter.get("/", async (req, res) => {
   }
 });
 
+reviewRouter.get("/myreviews", authenticate, async (req, res) => {
+  const { user } = req.body;
+  console.log(user);
+  try {
+    const review = await ReviewModel.find({ user });
+    res.send(review);
+  } catch (err) {
+    res.send({ msg: "Something went wrong", error: err.message });
+  }
+});
+
 reviewRouter.post("/create", authenticate, async (req, res) => {
   const payload = req.body;
   try {

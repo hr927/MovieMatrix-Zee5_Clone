@@ -6,10 +6,13 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../Styles/SingleMovie.css";
 import { AiFillStar } from "react-icons/ai";
 import AddReview from "./AddReview";
+import axios from "axios";
+import { useParams } from "react-router-dom";
+const AuthorizationToken = localStorage.getItem("token");
 
 function Rating({ name, title, description, stars }) {
   let arr = [];
@@ -41,12 +44,38 @@ function Rating({ name, title, description, stars }) {
   );
 }
 
-const ReviewSection = () => {
+const ReviewSection = ({ singleMovieData }) => {
+  const params = useParams();
+  const id = params.id;
+  let starArr = [];
+  let totalRating = 0;
+
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [disableBtn, setDisableBtn] = useState(false);
+  const [refreshReviews, setRefreshReviews] = useState(false);
+  const [reviewData, setReviewData] = useState([]);
+
+  function getReviewData(id) {
+    axios.get(`http://localhost:8080/review?showId=${id}`).then((res) => {
+      setReviewData(res.data);
+    });
+  }
+  reviewData.reverse();
+
+  useEffect(() => {
+    getReviewData(id);
+  }, [refreshReviews, id]);
+
+  reviewData.forEach((el) => {
+    totalRating += el.stars;
+  });
+
+  let totalStarsReview = Math.round(totalRating / reviewData.length);
+  for (let i = 0; i < totalStarsReview; i++) {
+    starArr.push(<AiFillStar />);
+  }
 
   return (
-    <Stack>
+    <Stack pb={"70px"} color={"white"}>
       <Text fontSize="xl" fontWeight="500" my={7}>
         Reviews
       </Text>
@@ -74,69 +103,55 @@ const ReviewSection = () => {
               justify={{ base: "end", md: "start" }}
               w={{ base: "40%", md: "60%" }}
             >
-              <AiFillStar /> <AiFillStar /> <AiFillStar /> <AiFillStar />
+              {starArr.map((el) => {
+                return el;
+              })}
               <Text color={"gray"} fontSize="14px">
-                (5)
+                ({reviewData.length})
               </Text>
             </Flex>
           </Flex>
 
-          {disableBtn ? (
+          {AuthorizationToken ? (
             <Button
-              border={"2px solid #2a25306d"}
-              bg={"401a4c"}
-              _hover={{
-                bg: "401a4c",
-              }}
-              variant={"solid"}
+              w={{ base: "40%", sm: "35%", md: "20%", lg: "18%" }}
+              onClick={onOpen}
+              colorScheme={"purple"}
             >
-              Rated
-            </Button>
-          ) : (
-            <Button onClick={onOpen} colorScheme={"purple"}>
               ⭐ Add Review
             </Button>
+          ) : (
+            <Text fontWeight={"500"} p={"5px"} borderBottom={"1px solid grey"}>
+              Login To Add Review
+            </Text>
           )}
         </Stack>
         <AddReview
-          setDisableBtn={setDisableBtn}
+          setRefreshReviews={setRefreshReviews}
+          refreshReviews={refreshReviews}
+          singleMovieData={singleMovieData}
           onClose={onClose}
           isOpen={isOpen}
           onOpen={onOpen}
         />
         <Stack className="reviewBody">
-          <Rating
-            name="Avneesh Grover"
-            title="Awesome Movie"
-            description={
-              "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Soluta possimus nulla ipsum molestias harum voluptate? Rerum laborum sapiente eaque quaerat quod ducimus, mollitia sit nesciunt, accusantium delectus a explicabo illo?"
-            }
-            stars={"1"}
-          />
-
-          <Rating
-            name="Soumalya"
-            title="Great Movie"
-            description={
-              "Lorem, ipharum voluptate? Rerum laborum sapiente eaque quaerat quod ducimus, mollitia sit nesciunt, accusantium delectus a explicabo illo?"
-            }
-            stars={"5"}
-          />
-
-          <Rating
-            name="Himanshu"
-            title="Nice Movie"
-            description={"Lorem, ipharumccusantium delectus a explicabo illo?"}
-            stars={"4"}
-          />
-          <Rating
-            name="Rahul"
-            title="Fantastic Movie"
-            description={
-              "Lorem, ipharumccusantium delectus a explicabo illo? rem, ipharumccusantium delectus a explicabo illo?"
-            }
-            stars={"5"}
-          />
+          {reviewData.length > 0 ? (
+            reviewData.map((el, i) => {
+              return (
+                <Rating
+                  key={i}
+                  name={el.userName}
+                  title={el.heading}
+                  description={el.body}
+                  stars={el.stars}
+                />
+              );
+            })
+          ) : (
+            <Text color={"white"} fontSize="md" fontWeight={"500"}>
+              Currently No Reviews Available, be the first to review.
+            </Text>
+          )}
         </Stack>
       </Stack>
     </Stack>

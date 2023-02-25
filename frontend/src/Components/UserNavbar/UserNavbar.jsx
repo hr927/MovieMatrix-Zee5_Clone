@@ -3,7 +3,6 @@ import {
   Flex,
   Avatar,
   HStack,
-  Link,
   IconButton,
   Button,
   Menu,
@@ -19,17 +18,27 @@ import {
   InputGroup,
   InputLeftElement,
   Spacer,
+
+  Tooltip
+
+  Tooltip,
+
 } from "@chakra-ui/react";
 import "./UserNavbar.css";
 
 import { FaBars, FaCrown, FaRegUser } from "react-icons/fa";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
-import { NavLink, Link as RouterLink } from "react-router-dom";
+import { NavLink, Link as RouterLink, Link } from "react-router-dom";
 import logo from "../../Images/logo.png";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { logoutFun } from "../../Redux/Authentication/action";
 const Links = [
   { path: "/", text: "Home" },
   { path: "/tvshows", text: "TV Shows" },
   { path: "/movies", text: "Movies" },
+  { path: "/myreviews", text: "My Reviews" },
+  { path: "/watchlist", text: "Watchlist" },
 ];
 
 // const NavLink = () => (
@@ -54,6 +63,39 @@ export default function UserNavabr() {
     textDecoration: "none",
     borderBottom: "2px solid white",
   };
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [profile, setProfile] = useState(false);
+  const dispatch = useDispatch();
+  // const [isHovered, setIsHovered] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState(null);
+
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+  };
+
+  // const handleLogout = () => {
+  //   setIsLoggedIn(false);
+  //   setUser(null);
+  // };
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setIsAuthenticated(true);
+      setIsLoggedIn(true);
+
+      setProfile(true);
+      setUser(JSON.parse(localStorage.getItem("userDetails")));
+    }
+  }, []);
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    setIsLoggedIn(false);
+
+    dispatch(logoutFun());
+  };
+
   return (
     <>
       <Box
@@ -91,6 +133,7 @@ export default function UserNavabr() {
                   {link.text}
                 </NavLink>
               ))}
+
               <Spacer />
               {isOpen ? null : (
                 <Input
@@ -102,12 +145,18 @@ export default function UserNavabr() {
                   placeholder="🔍 Search for Movies, Shows, Channels etc. "
                 />
               )}
+              
             </HStack>
           </HStack>
 
           <Flex alignItems={"center"}>
+
             <Link to="/login">
-              <Button
+              {/* <Button
+
+            {/* <Link to="/login"> */}
+            {/* <Button
+
                 _hover={{
                   color: "#0f0617",
                   bg: "white",
@@ -118,7 +167,86 @@ export default function UserNavabr() {
               >
                 LOGIN
               </Button>
+              <Box>
+                <Button>UserLogin</Button>
+                <Button>AdminLogin</Button>
+
+              </Box> */}
+
+              <Menu isLazy>
+  <MenuButton  as={Button} _hover={{
+                  
+                  textDecoration: "none",
+                }}
+                color="white"
+                variant="outline"
+                text-decoration= "none"
+              >Login</MenuButton>
+  <MenuList>
+    {/* MenuItems are not rendered unless Menu is open */}
+    <MenuItem _hover={{
+                  color: "white",
+                  bg: "#8230c6",
+                  textDecoration: "none",
+                }}
+                color="Black"
+                variant="outline"
+              >User Login</MenuItem>
+    <MenuItem _hover={{
+                  color: "white",
+                  bg: "#8230c6",
+                  textDecoration: "none",
+                }}
+                color="black"
+                variant="outline"
+              >Admin Login</MenuItem>
+  </MenuList>
+</Menu>
             </Link>
+
+            <Menu isLazy>
+              {isLoggedIn ? (
+                <Flex alignItems="center">
+                  <Menu>
+                    <MenuButton
+                      as={IconButton}
+                      icon={
+                        <Avatar
+                          size="sm"
+                          src={
+                            "https://marketplace.canva.com/EAFEits4-uw/1/0/1600w/canva-boy-cartoon-gamer-animated-twitch-profile-photo-oEqs2yqaL8s.jpg"
+                          }
+                        />
+                      }
+                      variant="ghost"
+                      aria-label="User menu"
+                      _hover={{ background: "transparent" }}
+                      _active={{ background: "transparent" }}
+                    />
+                    <MenuList bg={"#0f0617"}>
+                      <Link to={"/profile-page"}>
+                        <MenuItem bg={"#0f0617"} color={"white"} _hover={{bg:"#a77b4d"}}>Profile</MenuItem>
+                      </Link>
+                      <MenuItem onClick={handleLogout} bg={"#0f0617"} color={"white"} _hover={{bg:"#a77b4d"}} >Logout</MenuItem>
+                    </MenuList>
+                  </Menu>
+                </Flex>
+              ) : (
+                <Link to={"/login"}>
+                  <Button  onClick={handleLogin} _hover={{
+                  color: "#0f0617",
+                  bg: "white",
+                  textDecoration: "none",
+                }}
+                color="white"
+                variant="outline">
+                    Login
+                  </Button>
+                </Link>
+              )}
+            </Menu>
+            {/* </Link> */}
+
           </Flex>
         </Flex>
 
@@ -148,8 +276,6 @@ export default function UserNavabr() {
           </Box>
         ) : null}
       </Box>
-
-      
     </>
   );
 }
