@@ -43,6 +43,16 @@ export default function AllRoutes() {
       <Route path="/admin/media" element={<AdminMedia />}></Route>
       <Route path="/admin/updatemedia/:id" element={<UpdateMedia />}></Route>
 
+      <Route path="/sighup" element={<Sighup></Sighup>} />
+        <Route path="/login" element={<Login />} />
+         <Route path="/admin" element={<Admin />}></Route>
+    </Routes>
+
+   
+       
+      
+
+
       <Route path="/admin" element={<Admin />}></Route>
       <Route path="/myreviews" element={<MyReviews />} />
 </Routes>
