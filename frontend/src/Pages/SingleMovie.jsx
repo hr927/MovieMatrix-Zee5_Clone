@@ -27,8 +27,6 @@ const SingleMovie = () => {
   }
 
   useEffect(() => {
-    // const id = "63f4cb53d9c7f36e3760a9d2";
-
     getData(id);
   }, [id]);
 
@@ -48,7 +46,7 @@ const SingleMovie = () => {
             <Cast singleMovieData={singleMovieData} />
             <TagsRecommended singleMovieData={singleMovieData} />
             <Recommended singleMovieData={singleMovieData} />
-            <ReviewSection />
+            <ReviewSection singleMovieData={singleMovieData} />
           </>
         )}
       </Stack>

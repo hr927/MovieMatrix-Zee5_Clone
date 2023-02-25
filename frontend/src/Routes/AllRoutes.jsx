@@ -13,6 +13,7 @@ import Home from "../Pages/Home";
 import Movies from "../Pages/Movies";
 import SingleMovie from "../Pages/SingleMovie";
 import TVShows from "../Pages/TVshows";
+import MyReviews from "../Pages/MyReviews";
 
 import AdminMedia from "../Components/Admin/AdminMedia";
 import AdminUsers from "../Components/Admin/AdminUsers";
@@ -20,8 +21,6 @@ import CreateMedia from "../Components/Admin/CreateMedia";
 import UpdateMedia from "../Components/Admin/UpdateMedia";
 import MyReviews from "../Components/MyReviews/MyReviews";
 // import ProfilePage2 from "./ProfilePage2";
-
-
 
 export default function AllRoutes() {
   return (
@@ -46,7 +45,7 @@ export default function AllRoutes() {
 
       <Route path="/admin" element={<Admin />}></Route>
       <Route path="/myreviews" element={<MyReviews />} />
+</Routes>
   </Routes>
-
   );
 }
