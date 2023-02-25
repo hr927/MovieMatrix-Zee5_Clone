@@ -20,6 +20,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { login, logoutFun } from "../Redux/Authentication/action";
+import UserNavabr from "./UserNavbar/UserNavbar";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -74,6 +75,7 @@ export default function Login() {
   //   };
   return (
     <>
+    <UserNavabr></UserNavabr>
       <Flex
         minH={"100vh"}
         align={"center"}
