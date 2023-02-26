@@ -38,7 +38,7 @@ export default function TVSeriesCarousel() {
             key={index}
             // height={"xl"}
             position="relative"
-            backgroundImage={`url(${item.poster})`}
+            backgroundImage={`url(${item.bg_poster})`}
             backgroundSize="75% 100%"
             backgroundRepeat="no-repeat"
             backgroundPosition="center"
