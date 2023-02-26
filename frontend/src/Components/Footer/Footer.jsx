@@ -12,6 +12,7 @@ import {
   Flex,
   Heading,
 } from "@chakra-ui/react";
+import "../../Styles/body.css"
 import {
   AiFillFacebook,
   AiFillInstagram,
@@ -24,12 +25,14 @@ import play_store_logo from "../../Images/play_store.png";
 
 const Footer = () => {
   return (
-    <Box>
+    <Box bg='#0f0617' color='white' >
       
       <Box
         borderTopWidth={1}
         borderStyle={"solid"}
         borderColor={useColorModeValue("gray.200", "gray.700")}
+        bg='#0f0617'
+        color='white'
       >
         <Container
           as={Stack}
