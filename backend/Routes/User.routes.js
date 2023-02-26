@@ -6,11 +6,9 @@ const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 require("dotenv").config();
 // const multer = require('multer');
-const {authenticate} =require("../Middleware/authenticate.middleware")
-
+const { authenticate } = require("../Middleware/authenticate.middleware");
 
 const userRouter = express.Router();
-
 
 userRouter.get("/", authenticate, async (req, res) => {
   try {
@@ -193,6 +191,16 @@ userRouter.put("/profile", async (req, res) => {
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
+  }
+});
+
+userRouter.delete("/delete/:id", authenticate, async (req, res) => {
+  const userID = req.params.id;
+  try {
+    const user = await UserModel.findByIdAndDelete({ _id: userID });
+    res.send("User Deleted");
+  } catch (err) {
+    res.send({ msg: "Something went Wrong", error: err.message });
   }
 });
 

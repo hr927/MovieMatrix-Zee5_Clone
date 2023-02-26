@@ -27,7 +27,10 @@ function Rating({
   };
   const handleDelete = async (reviewId) => {
     await axios
-      .delete(`http://localhost:8080/review/delete/${reviewId}`, config)
+      .delete(
+        `https://bronze-salamander-cuff.cyclic.app/review/delete/${reviewId}`,
+        config
+      )
       .then((res) => {
         setRefreshReviews(!refreshReviews);
       })

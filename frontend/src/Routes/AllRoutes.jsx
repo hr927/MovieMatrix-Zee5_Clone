@@ -23,11 +23,7 @@ import UpdateMedia from "../Components/Admin/UpdateMedia";
 import Watchlist from "../Components/WatchList";
 import AdminPrivateRoute from "../Components/AdminPrivateRoute";
 
-
-
-
 // import ProfilePage2 from "./ProfilePage2";
-
 
 export default function AllRoutes() {
   return (
@@ -39,19 +35,11 @@ export default function AllRoutes() {
       <Route path="/forget-password" element={<ForgetPassword />} />
       <Route path="/reset-password" element={<ResetPassword />} />
 
-
-
-      <Route path="/sighup" element={<Sighup></Sighup>} />
-      <Route path="/forget-password" element={<ForgetPassword />} />
-      <Route path="/reset-password" element={<ResetPassword />} />
-
       <Route path="/admin-login" element={<AdminLogin />} />
 
       <Route path="/tvshows" element={<TVShows />}></Route>
       <Route path="/movies" element={<Movies />}></Route>
       <Route path="/details/:id" element={<SingleMovie />}></Route>
-
-      <Route path="/sighup" element={<Sighup></Sighup>} />
 
       <Route path="/login" element={<Login />} />
       <Route
@@ -63,16 +51,12 @@ export default function AllRoutes() {
         }
       ></Route>
 
-
-      <Route path="/admin" element={<Admin />}></Route>
-
-      <Route path="/myreviews" element={<MyReviews />} />
-
       <Route
         path="/admin"
-        element={ <PrivateRoute>
+        element={
+          <AdminPrivateRoute>
             <Admin />
-          </PrivateRoute>
+          </AdminPrivateRoute>
         }
       ></Route>
 
@@ -83,11 +67,7 @@ export default function AllRoutes() {
             <MyReviews />
           </PrivateRoute>
         }
-      /><AdminPrivateRoute>
-            <Admin />
-          </AdminPrivateRoute>
-        }
-      ></Route>
+      />
       <Route
         path="/admin/createmedia"
         element={
@@ -120,11 +100,6 @@ export default function AllRoutes() {
           </AdminPrivateRoute>
         }
       ></Route>
-
-      <Route path="/myreviews" element={<MyReviews />} />
-
-     
-
     </Routes>
   );
 }
