@@ -15,14 +15,16 @@ const TagsRecommended = ({ singleMovieData }) => {
   const [recommendedData, setRecommendedData] = useState([]);
 
   const getdata = (query) => {
-    axios.get(`http://localhost:8080/media?tags=${query}`).then((res) => {
-      const data = res.data.filter((el) => {
-        if (el._id !== currentMovieId) {
-          return el;
-        }
+    axios
+      .get(`https://bronze-salamander-cuff.cyclic.app/media?tags=${query}`)
+      .then((res) => {
+        const data = res.data.filter((el) => {
+          if (el._id !== currentMovieId) {
+            return el;
+          }
+        });
+        setRecommendedData(data);
       });
-      setRecommendedData(data);
-    });
   };
 
   useEffect(() => {
@@ -36,10 +38,19 @@ const TagsRecommended = ({ singleMovieData }) => {
           Recommended {singleMovieData.mediaType}s
         </Text>
 
-        <Carousel showDots={false} responsive={responsive}>
+        <Carousel
+          swipeable={true}
+          infinite={true}
+          keyBoardControl={true}
+          autoPlaySpeed={4000}
+          autoPlay={true}
+          draggable={true}
+          showDots={false}
+          responsive={responsive}
+        >
           {recommendedData?.map((item, index) => (
-            <Link to={`/details/${item._id}`}>
-              <CardForDetails key={index} item={item} index={index} />
+            <Link key={index} to={`/details/${item._id}`}>
+              <CardForDetails item={item} index={index} />
             </Link>
           ))}
         </Carousel>

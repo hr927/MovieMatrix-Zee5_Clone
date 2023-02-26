@@ -37,6 +37,11 @@ export default function AllRoutes() {
       <Route path="/forget-password" element={<ForgetPassword />} />
       <Route path="/reset-password" element={<ResetPassword />} />
 
+
+      <Route path="/sighup" element={<Sighup></Sighup>} />
+      <Route path="/forget-password" element={<ForgetPassword />} />
+      <Route path="/reset-password" element={<ResetPassword />} />
+
       <Route path="/admin-login" element={<AdminLogin />} />
 
       <Route path="/tvshows" element={<TVShows />}></Route>
@@ -57,8 +62,20 @@ export default function AllRoutes() {
 
       <Route
         path="/admin"
+        element={ <PrivateRoute>
+            <Admin />
+          </PrivateRoute>
+        }
+      ></Route>
+
+      <Route
+        path="/myreviews"
         element={
-          <AdminPrivateRoute>
+          <PrivateRoute>
+            <MyReviews />
+          </PrivateRoute>
+        }
+      /><AdminPrivateRoute>
             <Admin />
           </AdminPrivateRoute>
         }
@@ -100,7 +117,6 @@ export default function AllRoutes() {
 
      
 
-      
     </Routes>
   );
 }

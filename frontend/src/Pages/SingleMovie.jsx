@@ -20,10 +20,12 @@ const SingleMovie = () => {
   const [loader, setLoader] = useState(true);
 
   function getData(id) {
-    axios.get(`http://localhost:8080/media/details/${id}`).then((res) => {
-      setSingleMovieData(res.data[0]);
-      setLoader(() => false);
-    });
+    axios
+      .get(`https://bronze-salamander-cuff.cyclic.app/media/details/${id}`)
+      .then((res) => {
+        setSingleMovieData(res.data[0]);
+        setLoader(() => false);
+      });
   }
 
   useEffect(() => {
