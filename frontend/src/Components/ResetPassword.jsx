@@ -67,7 +67,7 @@ export default function ResetPassword() {
           };
 
           axios
-            .post(`http://localhost:8080/user/reset-password/${token}`, newPass)
+            .post(`https://bronze-salamander-cuff.cyclic.app/user/reset-password/${token}`, newPass)
             .then((res) => {
               toast({
                 title: `${res.data.message}`,

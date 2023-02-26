@@ -12,7 +12,6 @@ import { AiFillStar } from "react-icons/ai";
 import AddReview from "./AddReview";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-const AuthorizationToken = localStorage.getItem("token");
 
 function Rating({ name, title, description, stars }) {
   let arr = [];
@@ -50,20 +49,43 @@ const ReviewSection = ({ singleMovieData }) => {
   let starArr = [];
   let totalRating = 0;
 
+  const [tokenState, setTokenState] = useState(
+    JSON.parse(localStorage.getItem("token"))
+  );
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [refreshReviews, setRefreshReviews] = useState(false);
   const [reviewData, setReviewData] = useState([]);
 
   function getReviewData(id) {
-    axios.get(`http://localhost:8080/review?showId=${id}`).then((res) => {
-      setReviewData(res.data);
-    });
+    axios
+      .get(`https://bronze-salamander-cuff.cyclic.app/review?showId=${id}`)
+      .then((res) => {
+        setReviewData(res.data);
+      });
   }
-  reviewData.reverse();
+
+  if (reviewData.length > 0) {
+    reviewData.reverse();
+  }
 
   useEffect(() => {
+    const handleStorageChange = (event) => {
+      const AuthorizationToken = JSON.parse(localStorage.getItem("token"));
+      if (!AuthorizationToken) {
+        setTokenState(false);
+      } else {
+        setTokenState(AuthorizationToken);
+      }
+    };
     getReviewData(id);
-  }, [refreshReviews, id]);
+
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, [refreshReviews, tokenState]);
 
   reviewData.forEach((el) => {
     totalRating += el.stars;
@@ -112,7 +134,7 @@ const ReviewSection = ({ singleMovieData }) => {
             </Flex>
           </Flex>
 
-          {AuthorizationToken ? (
+          {tokenState ? (
             <Button
               w={{ base: "40%", sm: "35%", md: "20%", lg: "18%" }}
               onClick={onOpen}
@@ -127,6 +149,7 @@ const ReviewSection = ({ singleMovieData }) => {
           )}
         </Stack>
         <AddReview
+          tokenState={tokenState}
           setRefreshReviews={setRefreshReviews}
           refreshReviews={refreshReviews}
           singleMovieData={singleMovieData}

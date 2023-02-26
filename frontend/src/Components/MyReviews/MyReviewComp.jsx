@@ -4,7 +4,7 @@ import { AiFillStar } from "react-icons/ai";
 import "../../Styles/SingleMovie.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
-const AuthorizationToken = localStorage.getItem("token");
+const AuthorizationToken = JSON.parse(localStorage.getItem("token")) || false;
 
 function Rating({
   id,
@@ -29,8 +29,10 @@ function Rating({
     await axios
       .delete(`http://localhost:8080/review/delete/${reviewId}`, config)
       .then((res) => {
-        console.log(res);
         setRefreshReviews(!refreshReviews);
+      })
+      .catch((res) => {
+        console.log(res);
       });
   };
 
@@ -94,9 +96,9 @@ function Rating({
 
 const MyReviewComp = ({ totalReviews, setRefreshReviews, refreshReviews }) => {
   return (
-    <Stack w={{ base: "96%", md: "100%" }} color={"white"}>
+    <Stack p={"20px"} w={{ base: "96%", md: "100%" }} color={"white"}>
       <Flex
-        w="20%"
+        w={{ base: "100%", sm: "70%", md: "40%", lg: "50%" }}
         m="auto"
         justify={"center"}
         p={"5px "}

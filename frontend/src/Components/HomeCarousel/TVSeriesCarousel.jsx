@@ -1,7 +1,7 @@
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
+import { FaPlay } from "react-icons/fa";
 import React from "react";
 import { getTagsMediaTypedata } from "../Home_mid_Section/api";
 import { Link, useNavigate } from "react-router-dom";
@@ -38,8 +38,8 @@ export default function TVSeriesCarousel() {
             key={index}
             // height={"xl"}
             position="relative"
-            backgroundImage={`url(${item.poster})`}
-            backgroundSize="75% 100%"
+            backgroundImage={`url(${item.bg_poster})`}
+            backgroundSize="95% 100%"
             backgroundRepeat="no-repeat"
             backgroundPosition="center"
             w="100%"
@@ -48,20 +48,21 @@ export default function TVSeriesCarousel() {
             {/* <Box position="absolute" top={0} left={0} bottom={0} right={0} bg="rgba(255, 255, 255, 0.5)" filter="blur(10px)" zIndex="-1"></Box> */}
             <Container height="600px" position="relative">
               <Stack
-                spacing={6}
+                spacing={2}
                 w={"full"}
                 maxW={"lg"}
                 position="absolute"
                 top="50%"
+                right="60%"
                 transform="translate(0, -50%)"
               >
-                <Button color={"black"}>Watch</Button>
+                
 
                 <Text fontSize={{ base: "2xl", md: "3xl", lg: "3xl" }}>
                   {item.title}
                 </Text>
                 <Link to={`../details/${item._id}`}>
-                  <Button color="grey">Watch</Button>
+                  <Button colorScheme='purple'>Details</Button>
                 </Link>
               </Stack>
             </Container>
