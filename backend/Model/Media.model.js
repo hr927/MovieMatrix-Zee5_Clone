@@ -14,6 +14,7 @@ const mediaSchema = mongoose.Schema({
   trailer: String,
   tags: Array,
   poster: String,
+  bg_poster:String,
 });
 
 const MediaModel = mongoose.model("media", mediaSchema);
