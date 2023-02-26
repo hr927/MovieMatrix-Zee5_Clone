@@ -24,6 +24,7 @@ import Watchlist from "../Components/WatchList";
 import AdminPrivateRoute from "../Components/AdminPrivateRoute";
 
 
+
 // import ProfilePage2 from "./ProfilePage2";
 
 export default function AllRoutes() {
@@ -96,6 +97,7 @@ export default function AllRoutes() {
       ></Route>
 
       <Route path="/myreviews" element={<MyReviews />} />
+
      
 
       

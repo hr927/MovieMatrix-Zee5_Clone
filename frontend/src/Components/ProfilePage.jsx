@@ -69,7 +69,7 @@ export default function ProfilePage() {
         img: image,
       };
       const res = await axios.put(
-        "http://localhost:8080/user/profile",
+        "https://bronze-salamander-cuff.cyclic.app/user/profile",
         newDetails
       );
       console.log("res: ", res);
@@ -91,7 +91,7 @@ export default function ProfilePage() {
       minH={"100vh"}
       align={"center"}
       justify={"center"}
-      bg={useColorModeValue("gray.50", "gray.800")}
+      bg={useColorModeValue("rgb(15 6 23)", "rgb(15 6 23)")}
     >
       <Stack
         spacing={4}

@@ -28,7 +28,7 @@ export const Adminregister = (userData) => async (dispatch) => {
     dispatch(adminRequest());
 
     const response = await axios.post(
-      "http://localhost:8080/admin/register",
+      "https://bronze-salamander-cuff.cyclic.app/admin/register",
       userData
     );
 
@@ -49,7 +49,7 @@ export const adminlogin = (userData) => async (dispatch) => {
 
     // make the API call to signup the user
     const response = await axios.post(
-      "http://localhost:8080/admin/login",
+      "https://bronze-salamander-cuff.cyclic.app/admin/login",
       userData
     );
 

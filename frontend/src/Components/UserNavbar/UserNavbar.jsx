@@ -65,7 +65,7 @@ export default function UserNavabr() {
   // function for getting the Search data from backend
   const getdata = () => {
     axios
-      .get(`http://localhost:8080/media/search?name=${searchValue}`)
+      .get(`https://bronze-salamander-cuff.cyclic.app/media/search?name=${searchValue}`)
       .then((res) => {
         console.log("search: ", res.data);
         setSearchResults(res.data);
@@ -84,7 +84,7 @@ export default function UserNavabr() {
   const SearchData = () => {
     return listToDisplay.map((movie, i) => {
       return (
-        <Link to={`/details/${movie._id}`}>
+        <Link to={`/details/${movie._id}`} onClick={()=>setSearchValue("")}>
           <Box
             key={movie.id}
             p={2}
@@ -95,9 +95,10 @@ export default function UserNavabr() {
             mt={4}
             overflow="auto"
             maxHeight="20rem"
+            color={"white"}
           >
             <Text fontSize="xl" fontWeight="bold">
-              {movie.title}
+              {movie.title }
             </Text>
             <Text>{movie.year}</Text>
           </Box>
@@ -245,7 +246,7 @@ export default function UserNavabr() {
                       as={IconButton}
                       icon={
                         <Avatar
-                          size="sm"
+                          size="md"
                           src={
                             "https://marketplace.canva.com/EAFEits4-uw/1/0/1600w/canva-boy-cartoon-gamer-animated-twitch-profile-photo-oEqs2yqaL8s.jpg"
                           }
