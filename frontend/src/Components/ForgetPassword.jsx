@@ -42,7 +42,7 @@ export default function ForgetPassword() {
           email,
         };
         axios
-          .post("http://localhost:8080/user/reset-password", newEmail)
+          .post("https://bronze-salamander-cuff.cyclic.app/user/reset-password", newEmail)
           .then((res) => {
             toast({
               title: `${res.data.message}`,
