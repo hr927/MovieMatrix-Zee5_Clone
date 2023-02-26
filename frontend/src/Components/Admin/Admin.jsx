@@ -46,11 +46,10 @@ const Admin = () => {
   const getMedia = async () => {
     try {
       const response = await axios.get(
-        `https://uninterested-gray-spacesuit.cyclic.app/media`,
+        `https://bronze-salamander-cuff.cyclic.app/media`,
         {
           headers: {
-            Authorization:
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2M2Y0OTYwNDJjOWRhZTNmODNlNWZmZGYiLCJpYXQiOjE2NzY5NzQxODB9.8LlUUFyybQj-moWisIi1o2fLGLxAAeP5TGFB0sLYxeQ",
+            Authorization: JSON.parse(localStorage.getItem("Admin_token")),
           },
         }
       );

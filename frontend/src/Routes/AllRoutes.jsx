@@ -25,7 +25,9 @@ import AdminPrivateRoute from "../Components/AdminPrivateRoute";
 
 
 
+
 // import ProfilePage2 from "./ProfilePage2";
+
 
 export default function AllRoutes() {
   return (
@@ -36,6 +38,7 @@ export default function AllRoutes() {
       <Route path="/sighup" element={<Sighup></Sighup>} />
       <Route path="/forget-password" element={<ForgetPassword />} />
       <Route path="/reset-password" element={<ResetPassword />} />
+
 
 
       <Route path="/sighup" element={<Sighup></Sighup>} />
@@ -59,6 +62,11 @@ export default function AllRoutes() {
           </PrivateRoute>
         }
       ></Route>
+
+
+      <Route path="/admin" element={<Admin />}></Route>
+
+      <Route path="/myreviews" element={<MyReviews />} />
 
       <Route
         path="/admin"

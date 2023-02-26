@@ -31,6 +31,7 @@ const UpdateMedia = () => {
   const [language, setLanguage] = useState("");
   const [trailer, setTrailer] = useState("");
   const [poster, setPoster] = useState("");
+  const [bgPoster, setBgPoster] = useState("");
 
   const [titleError, setTitleError] = useState("");
   const [yearError, setYearError] = useState("");
@@ -45,17 +46,17 @@ const UpdateMedia = () => {
   const [languageError, setLanguageError] = useState("");
   const [trailerError, setTrailerError] = useState("");
   const [posterError, setPosterError] = useState("");
+  const [bgError, setBgError] = useState("");
 
   const navigate = useNavigate();
 
   const getMedia = async (id) => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/media/details/${id}`,
+        `https://bronze-salamander-cuff.cyclic.app/media/details/${id}`,
         {
           headers: {
-            Authorization:
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2M2Y0OTYwNDJjOWRhZTNmODNlNWZmZGYiLCJpYXQiOjE2NzY5NzQxODB9.8LlUUFyybQj-moWisIi1o2fLGLxAAeP5TGFB0sLYxeQ",
+            Authorization: JSON.parse(localStorage.getItem("Admin_token")),
           },
         }
       );
@@ -72,6 +73,7 @@ const UpdateMedia = () => {
       setLanguage(response.data[0].language);
       setTrailer(response.data[0].trailer);
       setPoster(response.data[0].poster);
+      setBgPoster(response.data[0].bg_poster);
     } catch (err) {
       console.log(err);
     }
@@ -83,12 +85,11 @@ const UpdateMedia = () => {
   const postMedia = async (payload) => {
     const headers = {
       "Content-type": "application/json",
-      Authorization:
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2M2Y0OTYwNDJjOWRhZTNmODNlNWZmZGYiLCJpYXQiOjE2NzY5NzQxODB9.8LlUUFyybQj-moWisIi1o2fLGLxAAeP5TGFB0sLYxeQ",
+      Authorization: JSON.parse(localStorage.getItem("Admin_token")),
     };
     try {
       const response = await axios.patch(
-        `http://localhost:8080/media/update/${id}`,
+        `https://bronze-salamander-cuff.cyclic.app/media/update/${id}`,
         payload,
         {
           headers: headers,
@@ -126,6 +127,7 @@ const UpdateMedia = () => {
         language,
         trailer,
         poster,
+        bg_poster: bgPoster,
       };
       setTitleError("");
       setYearError("");
@@ -140,6 +142,7 @@ const UpdateMedia = () => {
       setLanguageError("");
       setTrailerError("");
       setPosterError("");
+      setBgError("");
       console.log(movie);
       postMedia(movie);
     } else {
@@ -156,6 +159,7 @@ const UpdateMedia = () => {
       setLanguageError(errors.language);
       setTrailerError(errors.trailer);
       setPosterError(errors.poster);
+      setBgError(errors.bgError);
     }
   };
 
@@ -205,6 +209,9 @@ const UpdateMedia = () => {
     }
     if (!poster.trim()) {
       errors.poster = "Please enter a poster URL";
+    }
+    if (!bgPoster.trim()) {
+      errors.bgPoster = "Please enter a BackGround poster URL";
     }
     return errors;
   };
@@ -355,6 +362,15 @@ const UpdateMedia = () => {
                 onChange={(event) => setPoster(event.target.value)}
               />
               <FormErrorMessage>{posterError}</FormErrorMessage>
+            </FormControl>
+            <FormControl id="bgposter" isInvalid={!!posterError} mt="1rem">
+              <FormLabel>BackGround Poster URL</FormLabel>
+              <Input
+                type="text"
+                value={bgPoster}
+                onChange={(event) => setBgPoster(event.target.value)}
+              />
+              <FormErrorMessage>{bgError}</FormErrorMessage>
             </FormControl>
 
             <Button mt="1rem" colorScheme="blue" type="submit">

@@ -25,11 +25,20 @@ import {
 import { useNavigate } from "react-router-dom";
 
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { AdminlogoutFun } from "../../Redux/Authentication/Admin/action";
 
 export default function AdminNav() {
   const navigate = useNavigate();
   const { isOpen, onToggle } = useDisclosure();
+  const [isAuthenticated, setIsAuthenticated] = useState();
+  const dispatch = useDispatch();
 
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+
+    dispatch(AdminlogoutFun());
+  };
   return (
     <Box>
       <Flex
@@ -93,7 +102,8 @@ export default function AdminNav() {
               bg: "teal.400",
             }}
             onClick={() => {
-              navigate("/signup");
+              handleLogout();
+              navigate("/");
             }}
           >
             Log Out

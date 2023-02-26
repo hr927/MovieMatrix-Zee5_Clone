@@ -31,12 +31,14 @@ const Watchlist = () => {
   const getWatchList = async () => {
     // console.log("in");
     try {
-      const response = await axios.get(`http://localhost:8080/watchList/`, {
-        headers: {
-          Authorization:
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2M2Y4OTI3M2U1NDk5NDczMDI3Y2MyMjQiLCJpYXQiOjE2NzcyNDEyOTR9.7WKJKtw8c8ASpMptbfMo1PgXQqiQUdzLJQ_5MPbX0do",
-        },
-      });
+      const response = await axios.get(
+        `https://bronze-salamander-cuff.cyclic.app/watchList/`,
+        {
+          headers: {
+            Authorization: JSON.parse(localStorage.getItem("token")),
+          },
+        }
+      );
       console.log(response.data);
       setWatchlist(response.data);
     } catch (err) {
@@ -52,11 +54,10 @@ const Watchlist = () => {
     setWatchlist(watchlist.filter((item) => item._id !== id));
     try {
       const response = await axios.delete(
-        `http://localhost:8080/watchlist/delete/${id}`,
+        `https://bronze-salamander-cuff.cyclic.app/watchlist/delete/${id}`,
         {
           headers: {
-            Authorization:
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2M2Y0OTYwNDJjOWRhZTNmODNlNWZmZGYiLCJpYXQiOjE2NzY5NzQxODB9.8LlUUFyybQj-moWisIi1o2fLGLxAAeP5TGFB0sLYxeQ",
+            Authorization: JSON.parse(localStorage.getItem("token")),
           },
         }
       );
