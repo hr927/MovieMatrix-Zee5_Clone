@@ -39,7 +39,7 @@ export default function TVSeriesCarousel() {
             // height={"xl"}
             position="relative"
             backgroundImage={`url(${item.bg_poster})`}
-            backgroundSize="75% 100%"
+            backgroundSize="95% 100%"
             backgroundRepeat="no-repeat"
             backgroundPosition="center"
             w="100%"
@@ -53,7 +53,7 @@ export default function TVSeriesCarousel() {
                 maxW={"lg"}
                 position="absolute"
                 top="50%"
-                right="40%"
+                right="60%"
                 transform="translate(0, -50%)"
               >
                 
