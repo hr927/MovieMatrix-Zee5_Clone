@@ -25,7 +25,7 @@ export const register = (userData) => async (dispatch) => {
     dispatch(authRequest());
 
     const response = await axios.post(
-      "http://localhost:8080/user/register",
+      "https://bronze-salamander-cuff.cyclic.app/user/register",
       userData
     );
 
@@ -46,7 +46,7 @@ export const login = (userData) => async (dispatch) => {
 
     // make the API call to signup the user
     const response = await axios.post(
-      "http://localhost:8080/user/login",
+      "https://bronze-salamander-cuff.cyclic.app/user/login",
       userData
     );
   

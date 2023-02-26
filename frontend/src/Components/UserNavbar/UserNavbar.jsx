@@ -9,28 +9,31 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
-  MenuDivider,
   useDisclosure,
-  useColorModeValue,
   Stack,
   Img,
   Input,
-  InputGroup,
-  InputLeftElement,
   Spacer,
-
-  Tooltip,
-
+  Text,
+  VStack,
 } from "@chakra-ui/react";
 import "./UserNavbar.css";
 
-import { FaBars, FaCrown, FaRegUser } from "react-icons/fa";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
-import { NavLink, Link as RouterLink, Link } from "react-router-dom";
+import {
+  NavLink,
+  Link as RouterLink,
+  Link,
+  useNavigate,
+} from "react-router-dom";
 import logo from "../../Images/logo.png";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useEffect, useMemo, useState } from "react";
 import { logoutFun } from "../../Redux/Authentication/action";
+
+import { debounce } from "lodash";
+import axios from "axios";
+
 const Links = [
   { path: "/", text: "Home" },
   { path: "/tvshows", text: "TV Shows" },
@@ -38,20 +41,6 @@ const Links = [
   { path: "/myreviews", text: "My Reviews" },
   { path: "/watchlist", text: "Watchlist" },
 ];
-
-// const NavLink = () => (
-//   <Link
-//     px={2}
-//     py={1}
-//     rounded={'md'}
-//     _hover={{
-//       textDecoration: 'none',
-//       bg: useColorModeValue('gray.200', 'gray.700'),
-//     }}
-//     href={'#'}>
-//     {Links.map((el)=>{return(el)})}
-//   </Link>
-// );
 
 export default function UserNavabr() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -62,33 +51,106 @@ export default function UserNavabr() {
     borderBottom: "2px solid white",
   };
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [profile, setProfile] = useState(false);
+  // const [profile, setProfile] = useState(false);
   const dispatch = useDispatch();
-  // const [isHovered, setIsHovered] = useState(false);
+
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
-  const handleLogin = () => {
-    setIsLoggedIn(true);
+  // for search state
+  const [searchValue, setSearchValue] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+
+  // function for getting the Search data from backend
+  const getdata = () => {
+    axios
+      .get(`https://bronze-salamander-cuff.cyclic.app/media/search?name=${searchValue}`)
+      .then((res) => {
+        console.log("search: ", res.data);
+        setSearchResults(res.data);
+      });
   };
 
- 
+  // display Search Data
+  let listToDisplay = searchResults;
 
+  // onChange apply on input
+  const handleInputChange = (e) => {
+    setSearchValue(e.target.value);
+  };
+
+  // Store the Search Data in Function and Call when search will happen
+  const SearchData = () => {
+    return listToDisplay.map((movie, i) => {
+      return (
+        <Link to={`/details/${movie._id}`} onClick={()=>setSearchValue("")}>
+          <Box
+            key={movie.id}
+            p={2}
+            borderWidth={1}
+            borderColor="gray.200"
+            borderRadius={4}
+            _hover={{ cursor: "pointer", bg: "gray.50", color: "black" }}
+            mt={4}
+            overflow="auto"
+            maxHeight="20rem"
+            color={"white"}
+          >
+            <Text fontSize="xl" fontWeight="bold">
+              {movie.title }
+            </Text>
+            <Text>{movie.year}</Text>
+          </Box>
+        </Link>
+      );
+    });
+  };
+
+  // Filtering logic is apply on SearchResults
+  if (searchValue !== "" || searchValue.trim() ) {
+    listToDisplay = searchResults.filter((movie) => {
+      // return fruit.includes(searchValue);
+      return movie.title.toLowerCase().includes(searchValue);
+    });
+  }
+
+  // Use Debounce for searching with useMemo
+  const debouncedResults = useMemo(() => {
+    return debounce(handleInputChange, 3000);
+  }, []);
+
+  // for unmounting search functionality (it means when backspace hit the search data will vanish)
+  useEffect(() => {
+    return () => {
+      debouncedResults.cancel();
+    };
+  });
+
+  // This is for authentication using local storage token and for calling the search data first time when component render
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
       setIsAuthenticated(true);
       setIsLoggedIn(true);
 
-      setProfile(true);
       setUser(JSON.parse(localStorage.getItem("userDetails")));
     }
+    getdata();
   }, []);
+
+  // Logout function
   const handleLogout = () => {
     setIsAuthenticated(false);
     setIsLoggedIn(false);
 
     dispatch(logoutFun());
+    navigate("/");
+  };
+
+  // Login Function
+  const handleLogin = () => {
+    setIsLoggedIn(true);
   };
 
   return (
@@ -138,38 +200,42 @@ export default function UserNavabr() {
                   borderColor="rgb(111, 111, 111)"
                   borderRadius="lg"
                   placeholder="🔍 Search for Movies, Shows, Channels etc. "
+                  value={searchValue}
+                  onChange={handleInputChange}
                 />
               )}
-              
             </HStack>
           </HStack>
 
           <Flex alignItems={"center"}>
-
             <Link to="/login">
-
               <Menu isLazy>
-  
-  <MenuList>
-    {/* MenuItems are not rendered unless Menu is open */}
-    <MenuItem _hover={{
-                  color: "white",
-                  bg: "#8230c6",
-                  textDecoration: "none",
-                }}
-                color="Black"
-                variant="outline"
-              >User Login</MenuItem>
-    <MenuItem _hover={{
-                  color: "white",
-                  bg: "#8230c6",
-                  textDecoration: "none",
-                }}
-                color="black"
-                variant="outline"
-              >Admin Login</MenuItem>
-  </MenuList>
-</Menu>
+                <MenuList>
+                  {/* MenuItems are not rendered unless Menu is open */}
+                  <MenuItem
+                    _hover={{
+                      color: "white",
+                      bg: "#8230c6",
+                      textDecoration: "none",
+                    }}
+                    color="Black"
+                    variant="outline"
+                  >
+                    User Login
+                  </MenuItem>
+                  <MenuItem
+                    _hover={{
+                      color: "white",
+                      bg: "#8230c6",
+                      textDecoration: "none",
+                    }}
+                    color="black"
+                    variant="outline"
+                  >
+                    Admin Login
+                  </MenuItem>
+                </MenuList>
+              </Menu>
             </Link>
 
             <Menu isLazy>
@@ -180,7 +246,7 @@ export default function UserNavabr() {
                       as={IconButton}
                       icon={
                         <Avatar
-                          size="sm"
+                          size="md"
                           src={
                             "https://marketplace.canva.com/EAFEits4-uw/1/0/1600w/canva-boy-cartoon-gamer-animated-twitch-profile-photo-oEqs2yqaL8s.jpg"
                           }
@@ -193,28 +259,43 @@ export default function UserNavabr() {
                     />
                     <MenuList bg={"#0f0617"}>
                       <Link to={"/profile-page"}>
-                        <MenuItem bg={"#0f0617"} color={"white"} _hover={{bg:"#a77b4d"}}>Profile</MenuItem>
+                        <MenuItem
+                          bg={"#0f0617"}
+                          color={"white"}
+                          _hover={{ bg: "#a77b4d" }}
+                        >
+                          Profile
+                        </MenuItem>
                       </Link>
-                      <MenuItem onClick={handleLogout} bg={"#0f0617"} color={"white"} _hover={{bg:"#a77b4d"}} >Logout</MenuItem>
+                      <MenuItem
+                        onClick={handleLogout}
+                        bg={"#0f0617"}
+                        color={"white"}
+                        _hover={{ bg: "#a77b4d" }}
+                      >
+                        Logout
+                      </MenuItem>
                     </MenuList>
                   </Menu>
                 </Flex>
               ) : (
                 <Link to={"/login"}>
-                  <Button  onClick={handleLogin} _hover={{
-                  color: "#0f0617",
-                  bg: "white",
-                  textDecoration: "none",
-                }}
-                color="white"
-                variant="outline">
+                  <Button
+                    onClick={handleLogin}
+                    _hover={{
+                      color: "#0f0617",
+                      bg: "white",
+                      textDecoration: "none",
+                    }}
+                    color="white"
+                    variant="outline"
+                  >
                     Login
                   </Button>
                 </Link>
               )}
             </Menu>
             {/* </Link> */}
-
           </Flex>
         </Flex>
 
@@ -233,16 +314,20 @@ export default function UserNavabr() {
                 </NavLink>
               ))}
             </Stack>
-            <Input
-              maxW={"70%"}
-              color="white"
-              focusBorderColor="purple.500"
-              borderColor="rgb(111, 111, 111)"
-              borderRadius="lg"
-              placeholder="🔍 Search for Movies, Shows, Channels etc. "
-            />
+            <Box p={4}>
+              <Input
+                value={searchValue}
+                onChange={handleInputChange}
+                placeholder="Search movies"
+              />
+              <VStack mt={4} align="stretch" spacing={2}>
+        {searchValue.trim().length>0 && SearchData()}
+              </VStack>
+           
+            </Box>
           </Box>
         ) : null}
+        {searchValue.trim().length>0 && SearchData()}
       </Box>
     </>
   );

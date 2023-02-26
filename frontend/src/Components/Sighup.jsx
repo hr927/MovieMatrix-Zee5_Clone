@@ -151,6 +151,7 @@ export default function Sighup() {
                   value={name}
                   onChange={(e) => setname(e.target.value)}
                   isRequired={true}
+                  placeholder="Create Your Username"
                   ref={inputEl}
                 />
               </FormControl>
@@ -163,6 +164,7 @@ export default function Sighup() {
                 value={email}
                 onChange={handleEmailChange}
                 onBlur={() => validateEmail(email)}
+                placeholder="create-email@example.com"
                 isRequired={true}
                 ref={inputEl}
               />
@@ -176,6 +178,7 @@ export default function Sighup() {
                   value={password}
                   onChange={handlePasswordChange}
                   onBlur={() => validatePassword(password)}
+                  placeholder="Create Password"
                   isRequired={true}
                   ref={inputEl}
                 />

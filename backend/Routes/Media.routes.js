@@ -15,6 +15,18 @@ mediaRouter.get("/", async (req, res) => {
   }
 });
 
+mediaRouter.get("/search", async (req, res) => {
+  const name = req.query.name;
+  try {
+    const media = await MediaModel.find({
+      title: { $regex: `(?i)${name}(?-i)` },
+    });
+    res.send(media);
+  } catch (err) {
+    res.send({ msg: "Something went wrong", error: err.message });
+  }
+});
+
 mediaRouter.get("/adminmedia", async (req, res) => {
   const query = req.query;
   const limit = 10;
