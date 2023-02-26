@@ -31,6 +31,7 @@ const CreateMedia = () => {
   const [language, setLanguage] = useState("");
   const [trailer, setTrailer] = useState("");
   const [poster, setPoster] = useState("");
+  const [bgPoster, setBgPoster] = useState("");
 
   const [titleError, setTitleError] = useState("");
   const [yearError, setYearError] = useState("");
@@ -45,6 +46,7 @@ const CreateMedia = () => {
   const [languageError, setLanguageError] = useState("");
   const [trailerError, setTrailerError] = useState("");
   const [posterError, setPosterError] = useState("");
+  const [bgError, setBgError] = useState("");
 
   const postMedia = async (payload) => {
     const headers = {
@@ -90,6 +92,7 @@ const CreateMedia = () => {
         language,
         trailer,
         poster,
+        bg_poster: bgPoster,
       };
       setTitleError("");
       setYearError("");
@@ -104,6 +107,7 @@ const CreateMedia = () => {
       setLanguageError("");
       setTrailerError("");
       setPosterError("");
+      setBgError("");
       //   console.log(movie);
       postMedia(movie);
     } else {
@@ -120,6 +124,7 @@ const CreateMedia = () => {
       setLanguageError(errors.language);
       setTrailerError(errors.trailer);
       setPosterError(errors.poster);
+      setBgError(errors.bgError);
     }
   };
 
@@ -169,6 +174,9 @@ const CreateMedia = () => {
     }
     if (!poster.trim()) {
       errors.poster = "Please enter a poster URL";
+    }
+    if (!bgPoster.trim()) {
+      errors.bgPoster = "Please enter a BackGround poster URL";
     }
     return errors;
   };
@@ -319,6 +327,15 @@ const CreateMedia = () => {
                 onChange={(event) => setPoster(event.target.value)}
               />
               <FormErrorMessage>{posterError}</FormErrorMessage>
+            </FormControl>
+            <FormControl id="bgposter" isInvalid={!!posterError} mt="1rem">
+              <FormLabel>BackGround Poster URL</FormLabel>
+              <Input
+                type="text"
+                value={bgPoster}
+                onChange={(event) => setBgPoster(event.target.value)}
+              />
+              <FormErrorMessage>{bgError}</FormErrorMessage>
             </FormControl>
 
             <Button mt="1rem" colorScheme="blue" type="submit">
