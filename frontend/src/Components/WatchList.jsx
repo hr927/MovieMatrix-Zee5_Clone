@@ -182,7 +182,7 @@ const Watchlist = () => {
               </Grid>
             </Box>
           ) : (
-            <Heading color={"white"}>Nothing Here</Heading>
+            <Heading color={"white"}>MovieMatrix Watchlist</Heading>
           )}
         </div>
       </div>

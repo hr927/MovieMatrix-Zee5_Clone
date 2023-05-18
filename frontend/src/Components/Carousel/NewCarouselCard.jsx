@@ -1,25 +1,15 @@
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { FaPlay } from "react-icons/fa";
+
 import React from "react";
-import { getdata } from "../Home_mid_Section/api";
+import Loader from "../Loader";
 import { Link, useNavigate } from "react-router-dom";
 import "../../Styles/body.css";
 import { Box, Button, Container, Stack, Text } from "@chakra-ui/react";
-export default function TVSeriesCarousel() {
+export default function SimpleSlider({ data }) {
   const navigate = useNavigate();
 
-  const [trending, settrending] = React.useState(null);
-  React.useEffect(() => {
-    getdata("Trending")
-      .then((res) => {
-        settrending(res.data);
-        console.log(res);
-      })
-      .catch((err) => console.log(err));
-  }, []);
-  console.log(trending);
   var settings = {
     infinite: true,
     dots: true,
@@ -32,8 +22,8 @@ export default function TVSeriesCarousel() {
   };
   return (
     <div>
-      <Slider {...settings}>
-        {trending?.map((item, index) => (
+      {!data ? <Loader/> :<Slider {...settings}>
+        {data?.map((item, index) => (
           <Box
             key={index}
             // height={"xl"}
@@ -56,13 +46,11 @@ export default function TVSeriesCarousel() {
                 right="60%"
                 transform="translate(0, -50%)"
               >
-                
-
                 <Text fontSize={{ base: "2xl", md: "3xl", lg: "3xl" }}>
                   {item.title}
                 </Text>
                 <Link to={`../details/${item._id}`}>
-                  <Button colorScheme='purple'>Details</Button>
+                  <Button colorScheme="purple">Details</Button>
                 </Link>
               </Stack>
             </Container>
@@ -79,7 +67,8 @@ export default function TVSeriesCarousel() {
             /> */}
           </Box>
         ))}
-      </Slider>
+      </Slider>}
+      
     </div>
   );
 }
