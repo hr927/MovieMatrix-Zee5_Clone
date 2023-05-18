@@ -1,13 +1,13 @@
 const mongoose = require("mongoose");
 
 const reviewSchema = mongoose.Schema({
-  user: String,
-  showId: String,
-  userName: String,
-  showName: String,
-  heading: String,
-  body: String,
-  stars: Number,
+  user: {type:String,required:true},
+  showId: {type:String,required:true},
+  userName: {type:String,required:true},
+  showName: {type:String,required:true},
+  heading: {type:String,required:true},
+  body: {type:String,required:true},
+  stars: {type:Number,required:true},
 });
 
 const ReviewModel = mongoose.model("review", reviewSchema);
