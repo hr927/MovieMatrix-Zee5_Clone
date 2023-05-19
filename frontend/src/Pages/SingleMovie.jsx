@@ -23,6 +23,7 @@ const SingleMovie = () => {
     axios
       .get(`https://bronze-salamander-cuff.cyclic.app/media/details/${id}`)
       .then((res) => {
+        console.log(res.data);
         setSingleMovieData(res.data[0]);
         setLoader(() => false);
       });
@@ -31,7 +32,7 @@ const SingleMovie = () => {
   useEffect(() => {
     getData(id);
   }, [id]);
-
+console.log(singleMovieData);
   return (
     <>
       <UserNavabr />

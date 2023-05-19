@@ -71,12 +71,14 @@ const Admin = () => {
     });
     return genreCounts;
   };
-
+  
   const genreCounts = getGenreCounts();
+  
   const dataPie = Object.keys(genreCounts).map((genre) => ({
     name: genre,
     value: genreCounts[genre],
   }));
+  
   return (
     <>
       <AdminNav />

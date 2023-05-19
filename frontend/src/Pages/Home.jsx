@@ -8,28 +8,28 @@ import UserNavabr from "../Components/UserNavbar/UserNavbar";
 import { getdata, getgenredata } from "../Components/SliderArea/api";
 import SliderCard from "../Components/SliderArea/SliderCard";
 const Home = () => {
-  const [trending, settrending] = React.useState(null);
-  const [action, setaction] = React.useState(null);
-  const [popular, setpopular] = React.useState(null);
+  const [trending, setTrending] = React.useState(null);
+  const [action, setAction] = React.useState(null);
+  const [popular, setPopular] = React.useState(null);
 
   React.useEffect(() => {
     getdata("Trending")
       .then((res) => {
-        settrending(res.data);
+        setTrending(res.data);
         console.log(res);
       })
       .catch((err) => console.log(err));
 
     getgenredata("Action")
       .then((res) => {
-        setaction(res.data);
+        setAction(res.data);
         console.log(res);
       })
       .catch((err) => console.log(err));
 
     getdata("Popular")
       .then((res) => {
-        setpopular(res.data);
+        setPopular(res.data);
         console.log(res);
       })
       .catch((err) => console.log(err));
