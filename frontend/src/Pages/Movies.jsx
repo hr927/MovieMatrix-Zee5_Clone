@@ -8,12 +8,12 @@ import SliderCard from "../Components/SliderArea/SliderCard";
 import UserNavabr from "../Components/UserNavbar/UserNavbar";
 import { getTagsMediaTypedata } from "../Components/SliderArea/api";
 const Movies = () => {
-  const [trending, settrending] = React.useState(null);
+  const [trending, setTrending] = React.useState(null);
   const [PopularMovies, SetPopularMovies] = React.useState(null);
   React.useEffect(() => {
     getTagsMediaTypedata("Trending", "Movie")
       .then((res) => {
-        settrending(res.data);
+        setTrending(res.data);
         console.log(res);
       })
       .catch((err) => console.log(err));

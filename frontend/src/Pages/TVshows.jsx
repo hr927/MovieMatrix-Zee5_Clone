@@ -8,16 +8,16 @@ import SliderCard from "../Components/SliderArea/SliderCard";
 import UserNavabr from "../Components/UserNavbar/UserNavbar";
 
 import "../Styles/body.css";
-import { getTagsMediaTypedata, getgenreMediaTypedata } from "../Components/Home_mid_Section/api";
+import { getTagsMediaTypedata, getgenreMediaTypedata } from "../Components/SliderArea/api";
 
 const TVShows = () => {
-  const [trending, settrending] = React.useState(null);
+  const [trending, setTrending] = React.useState(null);
   const [PopularTvSeries, SetPopularTvSeries] = React.useState(null);
   const [DramaTvSeries, SetDramaTvSeries] = React.useState(null);
   React.useEffect(() => {
     getTagsMediaTypedata("Trending", "Show")
       .then((res) => {
-        settrending(res.data);
+        setTrending(res.data);
         console.log(res);
       })
       .catch((err) => console.log(err));

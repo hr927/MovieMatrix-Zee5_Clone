@@ -53,7 +53,7 @@ export default function ProfilePage() {
       setUserData(data);
     }
   }, []);
-
+console.log(userData);
   const handleChange = (e) => {
     setUserData({ ...userData, [e.target.name]: e.target.value });
   };

@@ -120,6 +120,7 @@ export default function UserNavabr() {
     return debounce(handleInputChange, 3000);
   }, []);
 
+
   // for unmounting search functionality (it means when backspace hit the search data will vanish)
   useEffect(() => {
     return () => {
