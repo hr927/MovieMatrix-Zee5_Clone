@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const mediaSchema = mongoose.Schema({
   title: {type:String,required:true},
-  year: Number,
+  year: {type:Number,required:true},
   director: {type:String,required:true},
   runtime: {type:String,required:true},
   mediaType: {type:String,required:true},
